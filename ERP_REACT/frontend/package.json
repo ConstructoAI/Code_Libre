@@ -20,7 +20,7 @@
     "clsx": "^2.1.1",
     "recharts": "^2.15.0",
     "fabric": "^6.5.1",
-    "pdfjs-dist": "^4.9.155",
+    "pdfjs-dist": "^5.7.284",
     "jspdf": "^4.2.0",
     "jspdf-autotable": "^5.0.8",
     "dompurify": "^3.3.4",
