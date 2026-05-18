@@ -537,6 +537,7 @@ Contactez-nous pour un devis ou une démo personnalisée.
 ---
 
 <p align="center">
+  <sub>Conçu, développé et maintenu par <a href="mailto:info@constructoai.ca"><strong>Sylvain Leduc</strong></a> — développeur principal et fondateur de Constructo AI Inc.</sub><br/>
   <sub>Fait au Québec 🍁 — Pour les entrepreneurs en construction du Québec.</sub><br/>
   <sub>Code libre · Données souveraines · Conformité locale</sub>
 </p>
