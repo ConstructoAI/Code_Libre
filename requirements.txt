@@ -1,0 +1,118 @@
+# ============================================
+# CONSTRUCTO AI - Requirements (Version-Locked)
+# Dernière mise à jour: 2026-03-07
+# Python: >=3.11
+# Politique: toutes les dépendances sont verrouillées
+#   avec des bornes min (>=) et max (<major+1)
+#   pour garantir la reproductibilité des builds.
+# ============================================
+
+# === FRAMEWORK WEB STREAMLIT ===
+streamlit>=1.41.0,<2.0.0
+streamlit-cookies-controller>=0.0.4,<1.0.0  # Cookie manager pour sessions persistantes (principal)
+extra-streamlit-components>=0.1.71,<1.0.0  # Cookie manager fallback
+streamlit-image-coordinates>=0.1.9,<1.0.0
+streamlit-folium>=0.23.0,<1.0.0  # Intégration Streamlit pour cartes
+streamlit-drawable-canvas>=0.9.3,<1.0.0  # Canvas interactif pour module Takeoff
+
+# === DATA & ANALYTICS ===
+pandas>=2.2.0,<3.0.0
+numpy>=1.26.0,<3.0.0
+plotly>=5.24.0,<6.0.0
+
+# === EXCEL & DOCUMENTS ===
+openpyxl>=3.1.5,<4.0.0
+xlsxwriter>=3.2.0,<4.0.0
+xlrd>=2.0.1,<3.0.0
+python-docx>=1.1.2,<2.0.0
+docx2txt>=0.8,<1.0.0
+striprtf>=0.0.29,<1.0.0
+chardet>=5.2.0,<6.0.0
+pyyaml>=6.0.2,<7.0.0
+
+# === PDF PROCESSING ===
+reportlab>=4.2.0,<5.0.0
+# PyPDF2 est déprécié. `pypdf` >= 6.10.2 corrige une vingtaine de CVE
+# (CVE-2025-55197, CVE-2025-62707/8, CVE-2026-22690/91, CVE-2026-27024/5/6,
+# CVE-2026-28351, CVE-2026-31826, CVE-2026-33123, CVE-2026-33699, CVE-2026-40260,
+# CVE-2026-41168, CVE-2026-41312/3/4).
+pypdf>=6.10.2,<7.0.0
+pymupdf>=1.24.14,<2.0.0
+pdfplumber>=0.11.0,<1.0.0  # Extraction texte PDF cote ERP_REACT.routers.devis
+weasyprint>=68.0,<70.0  # HTML to PDF — pinned >=68.0 pour CVE-2025-68616
+
+# === IMAGES & VISION ===
+# Pillow >= 12.2.0 requis pour CVE-2026-42308/9/10/11, CVE-2026-25990, CVE-2026-40192
+Pillow>=12.2.0,<13.0.0
+opencv-python>=4.10.0,<5.0.0  # Traitement d'images pour module Takeoff/Snap
+
+# === DATE & TIME ===
+python-dateutil>=2.9.0,<3.0.0
+pytz>=2024.2
+
+# === INTELLIGENCE ARTIFICIELLE (ANTHROPIC) ===
+anthropic>=0.67.0,<1.0.0
+
+# === API REST (FASTAPI) ===
+fastapi>=0.115.0,<1.0.0
+uvicorn>=0.32.0,<1.0.0
+websockets>=14.0,<16.0
+pydantic>=2.10.0,<3.0.0
+pydantic[email]>=2.10.0,<3.0.0
+email-validator>=2.2.0,<3.0.0
+
+# === WEB SERVER ===
+flask>=3.1.0,<4.0.0
+gunicorn>=23.0.0,<24.0.0
+requests>=2.32.0,<3.0.0
+
+# === POSTGRESQL DATABASE ===
+psycopg2-binary>=2.9.10,<3.0.0
+sqlalchemy>=2.0.36,<3.0.0
+alembic>=1.14.0,<2.0.0  # Migrations de base de données
+
+# === SÉCURITÉ ===
+bcrypt>=4.2.0,<5.0.0
+# cryptography >= 46.0.6 requis pour CVE-2026-34073, CVE-2026-26007
+cryptography>=46.0.6,<47.0.0
+bleach>=6.2.0,<7.0.0  # Sanitisation HTML pour prévenir XSS
+python-dotenv>=1.0.1,<2.0.0
+
+# === PARSING HTML & MARKDOWN ===
+beautifulsoup4>=4.12.3,<5.0.0
+markdown>=3.7.0,<4.0.0
+
+# === MONITORING & ERROR TRACKING ===
+sentry-sdk>=2.19.0,<3.0.0
+psutil>=6.1.0,<7.0.0
+
+# === STRIPE PAYMENT PROCESSING ===
+stripe>=11.3.0,<12.0.0
+
+# === GPS & CARTOGRAPHIE ===
+folium>=0.18.0,<1.0.0  # Cartes interactives
+geopy>=2.4.1,<3.0.0  # Géocodage et calcul de distances
+
+# === CAO/3D VIEWER ===
+trimesh>=4.5.0,<5.0.0  # Parsing STL/OBJ et manipulation mesh 3D
+numpy-stl>=3.1.0,<4.0.0  # Parsing STL binaire (fallback)
+ezdxf>=1.3.6,<2.0.0  # Lecture fichiers DXF (plans 2D AutoCAD)
+ifcopenshell>=0.8.0,<1.0.0  # Parsing STEP/IFC (modèles 3D industriels et BIM)
+
+# === WEB PUSH NOTIFICATIONS ===
+pywebpush>=2.0.0,<3.0.0
+py-vapid>=1.9.0,<2.0.0
+
+# === SCHEDULING ===
+schedule>=1.2.2,<2.0.0
+
+# === MCP (Model Context Protocol) ===
+# 1.8+ ships streamable_http_manager (Streamable HTTP transport, MCP 2025-03-26
+# spec) — required for the modern Claude.ai connector POST /mcp.
+mcp[cli]>=1.8.0,<2.0.0
+
+# === TESTING ===
+# pytest >= 9.0.3 requis pour CVE-2025-71176
+pytest>=9.0.3,<10.0.0
+pytest-cov>=6.0.0,<7.0.0
+pytest-mock>=3.14.0,<4.0.0

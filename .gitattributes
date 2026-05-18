@@ -1,0 +1,9 @@
+erp_production_dg.db filter=lfs diff=lfs merge=lfs -text
+erp_production_dg_backup_demo.db filter=lfs diff=lfs merge=lfs -text
+erp_production_dg_backup.db filter=lfs diff=lfs merge=lfs -text
+test_integration.db filter=lfs diff=lfs merge=lfs -text
+erp_backup_20251106_220308.db filter=lfs diff=lfs merge=lfs -text
+erp_production_dg_backup_20251106_220258.db filter=lfs diff=lfs merge=lfs -text
+erp_production_dg_backup_20251106_220329.db filter=lfs diff=lfs merge=lfs -text
+erp_production_dg_backup_20251106_220343.db filter=lfs diff=lfs merge=lfs -text
+erp_production_dg.db.backup_20251021_071246 filter=lfs diff=lfs merge=lfs -text

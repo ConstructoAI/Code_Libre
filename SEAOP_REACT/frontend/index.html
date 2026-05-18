@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#002050" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>SEAOP — Appels d'offres construction Qu&eacute;bec</title>
+    <meta name="description" content="SEAOP — Plateforme gratuite de mise en relation entre donneurs d'ouvrage et entrepreneurs qualifi&eacute;s du Qu&eacute;bec. Publiez un appel d'offres ou soumissionnez." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+  <body>
+    <script>
+      if (localStorage.getItem('seaop_theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

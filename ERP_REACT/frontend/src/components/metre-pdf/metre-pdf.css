@@ -1,0 +1,151 @@
+/*
+ * metre-pdf.css — Scoped styles for the METRE_PDF module.
+ *
+ * All rules are scoped under .metre-pdf-root to avoid conflicts
+ * with ERP global styles.
+ */
+
+/* ── CSS Custom Properties (ERP light theme) ───────────────── */
+
+.metre-pdf-root {
+  --metre-bg: #ffffff;
+  --metre-surface: #f8fafc;
+  --metre-panel: #f1f5f9;
+  --metre-border: #e2e8f0;
+  --metre-text: #1e293b;
+  --metre-muted: #64748b;
+  --metre-accent: #0078D4;
+  --metre-accent-hover: #005ea2;
+  --metre-canvas: #f1f5f9;
+
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  color: var(--metre-text);
+  background-color: var(--metre-bg);
+}
+
+/* ── CSS Custom Properties (ERP dark theme) ────────────────── */
+
+.dark .metre-pdf-root {
+  --metre-bg: #1b1b1f;
+  --metre-surface: #232328;
+  --metre-panel: #2a2a32;
+  --metre-border: #3f3f46;
+  --metre-text: #e4e4e7;
+  --metre-muted: #71717a;
+  --metre-accent: #3b82f6;
+  --metre-accent-hover: #2563eb;
+  --metre-canvas: #27272a;
+
+  color: var(--metre-text);
+  background-color: var(--metre-bg);
+}
+
+/* ── Scrollbar styling (scoped) ─────────────────────────────── */
+
+.metre-pdf-root ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.metre-pdf-root ::-webkit-scrollbar-track {
+  background: var(--metre-surface);
+}
+
+.metre-pdf-root ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.metre-pdf-root ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark .metre-pdf-root ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+}
+
+.dark .metre-pdf-root ::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* ── Utility classes ────────────────────────────────────────── */
+
+.metre-pdf-root .no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.metre-pdf-root .cursor-crosshair {
+  cursor: crosshair;
+}
+
+.metre-pdf-root .cursor-grab {
+  cursor: grab;
+}
+
+.metre-pdf-root .cursor-grabbing {
+  cursor: grabbing;
+}
+
+/* ── Panel section / title ──────────────────────────────────── */
+
+.metre-pdf-root .panel-section {
+  border-bottom: 1px solid var(--metre-border);
+  padding: 0.75rem;
+}
+
+.metre-pdf-root .panel-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--metre-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Tool button ────────────────────────────────────────────── */
+
+.metre-pdf-root .tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  border: none;
+  background: transparent;
+  color: var(--metre-muted);
+  cursor: pointer;
+  transition: color 150ms, background-color 150ms;
+}
+
+.metre-pdf-root .tool-btn:hover {
+  color: var(--metre-text);
+  background-color: var(--metre-panel);
+}
+
+.metre-pdf-root .tool-btn-active {
+  background-color: var(--metre-accent);
+  color: #ffffff;
+}
+
+.metre-pdf-root .tool-btn-active:hover {
+  background-color: var(--metre-accent-hover);
+}
+
+/* ── Input field ────────────────────────────────────────────── */
+
+.metre-pdf-root .input-field {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  background-color: var(--metre-bg);
+  border: 1px solid var(--metre-border);
+  border-radius: 0.25rem;
+  color: var(--metre-text);
+  outline: none;
+}
+
+.metre-pdf-root .input-field:focus {
+  border-color: var(--metre-accent);
+}

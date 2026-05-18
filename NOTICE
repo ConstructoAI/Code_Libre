@@ -1,0 +1,56 @@
+Constructo AI — Plateforme open source pour la construction
+Copyright 2026 Sylvain Leduc / Constructo AI Inc.
+
+Cette plateforme contient trois applications React :
+  - ERP_REACT    : ERP web pour entreprises de construction
+  - MOBILE_REACT : Application mobile (PWA) de pointage et terrain
+  - SEAOP_REACT  : Système d'appels d'offres publics
+
+Ce produit inclut du logiciel développé par Sylvain Leduc et Constructo AI Inc.
+
+================================================================================
+EXIGENCE D'ATTRIBUTION
+================================================================================
+
+Tout produit, dérivé ou redistribution de ce logiciel — qu'il soit open source,
+commercial, hébergé en SaaS, ou intégré dans une autre solution — DOIT inclure
+de manière visible la mention suivante dans :
+
+  • La documentation utilisateur (README, manuel, page « À propos »)
+  • L'interface de l'application (page de connexion, pied de page, ou
+    écran « À propos »)
+  • Toute communication marketing ou commerciale du produit dérivé
+
+Mention requise (au choix selon le contexte, en français ou en anglais) :
+
+  « Basé sur Constructo AI — gracieuseté de Constructo AI Inc.
+    https://constructoai.ca »
+
+  ou
+
+  « Powered by Constructo AI — courtesy of Constructo AI Inc.
+    https://constructoai.ca »
+
+================================================================================
+CONTACT
+================================================================================
+
+  Sylvain Leduc
+  Constructo AI Inc.
+  Courriel  : info@constructoai.ca
+  Téléphone : 514-820-1972
+  Web       : https://constructoai.ca
+
+================================================================================
+DÉPENDANCES TIERCES
+================================================================================
+
+Ce produit utilise des bibliothèques tierces sous leurs licences respectives.
+Consultez les fichiers package.json (frontend) et requirements.txt (backend)
+de chaque application pour la liste complète.
+
+Les licences des dépendances NPM peuvent être inspectées avec :
+  npx license-checker
+
+Les licences des dépendances Python peuvent être inspectées avec :
+  pip-licenses

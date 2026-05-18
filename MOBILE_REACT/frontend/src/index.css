@@ -1,0 +1,487 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+ * Constructo AI Mobile PWA — Unified Color System
+ * Same visual identity as ERP, optimized for mobile
+ * ============================================ */
+
+html {
+  scroll-behavior: smooth;
+  /* iOS safe area support */
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  min-height: 100dvh; /* dynamic viewport height for mobile browsers */
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  /* Animated gradient — same identity as ERP, lighter for mobile perf */
+  background-color: #ffffff;
+  background-image: linear-gradient(-45deg, #ffffff, #bfdbfe, #ffffff, #dbeafe, #ffffff, #bfdbfe);
+  background-size: 400% 400%;
+  animation: bgBreath 20s ease infinite;
+  background-attachment: scroll; /* scroll instead of fixed for mobile perf */
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Prevent text size adjustments on orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@keyframes bgBreath {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Dark mode — gradient sombre anime */
+.dark body {
+  background-color: #0f1923;
+  background-image: linear-gradient(-45deg, #0f1923, #132744, #0f1923, #162340, #0f1923, #132744);
+  background-size: 400% 400%;
+  animation: bgBreathDark 20s ease infinite;
+  background-attachment: scroll;
+}
+
+@keyframes bgBreathDark {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================
+ * Animations
+ * ============================================ */
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.3s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.25s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Bottom sheet slide-up */
+@keyframes slideUpSheet {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-slide-up-sheet {
+  animation: slideUpSheet 0.3s ease-out forwards;
+}
+
+/* ============================================
+ * Light Mode — Matches ERP style.css exactly
+ * ============================================ */
+
+#root {
+  --primary: #0078D4;
+  --primary-light: #2b88d8;
+  --primary-dark: #005ea2;
+  --primary-lighter: #deecf9;
+  --primary-lightest: #f3f9fd;
+  --bg: #ffffff;
+  --bg-secondary: #f3f2f1;
+  --bg-card: #faf9f8;
+  --text: #323130;
+  --text-light: #605e5c;
+  --text-muted: #a19f9d;
+  --border: #edebe9;
+  --border-light: #f3f2f1;
+  /* Safe area CSS variables for JS access */
+  --safe-area-top: env(safe-area-inset-top);
+  --safe-area-bottom: env(safe-area-inset-bottom);
+}
+
+/* ============================================
+ * Dark Mode — Matches ERP dark_theme.css exactly
+ * ============================================ */
+
+.dark #root {
+  --primary: #2b88d8;
+  --primary-light: #6cb8f6;
+  --primary-dark: #0078D4;
+  --primary-lighter: rgba(0, 120, 212, 0.15);
+  --primary-lightest: rgba(0, 120, 212, 0.08);
+  --bg: #1b1a19;
+  --bg-secondary: #252423;
+  --bg-card: #292827;
+  --text: #f3f2f1;
+  --text-light: #c8c6c4;
+  --text-muted: #a19f9d;
+  --border: #3b3a39;
+  --border-light: #323130;
+}
+
+/* ============================================
+ * Scrollbar — Matches ERP (thin for mobile)
+ * ============================================ */
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #161b22;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+ * iOS Zoom Prevention
+ * Font size 16px on inputs prevents iOS Safari
+ * from zooming in on focus
+ * ============================================ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="color"],
+select,
+textarea {
+  font-size: 16px;
+}
+
+/* ============================================
+ * Touch-friendly targets
+ * Apple HIG: minimum 44x44pt tap targets
+ * ============================================ */
+
+button,
+a,
+[role="button"],
+[role="tab"],
+[role="menuitem"],
+[role="option"],
+input[type="checkbox"],
+input[type="radio"] {
+  min-height: 44px;
+}
+
+/* Inline/icon buttons can be smaller when explicitly sized */
+.mobile-btn-icon-sm {
+  min-height: 36px;
+}
+
+/* ============================================
+ * Mobile Component Classes — Same identity as ERP
+ * Prefixed with "mobile-" instead of "erp-"
+ * ============================================ */
+
+@layer components {
+  .mobile-card {
+    @apply bg-white dark:bg-[#292827] rounded-lg shadow-sm
+           border border-[#edebe9] dark:border-[#3b3a39]
+           transition-all duration-150;
+  }
+
+  .mobile-card-hover {
+    @apply mobile-card active:shadow-md active:border-[#0078D4]/30 dark:active:border-[#0078D4]/40;
+  }
+
+  .mobile-btn-primary {
+    @apply bg-[#0078D4] hover:bg-[#005ea2] active:bg-[#004578]
+           text-white font-semibold px-4 py-3 rounded-lg
+           min-h-[44px] transition-all duration-150
+           focus:outline-none focus:ring-2 focus:ring-[#0078D4] focus:ring-offset-2
+           dark:focus:ring-offset-[#1b1a19]
+           select-none;
+  }
+
+  .mobile-btn-secondary {
+    @apply bg-white hover:bg-[#f3f2f1] active:bg-[#edebe9]
+           text-[#323130] font-semibold px-4 py-3 rounded-lg
+           min-h-[44px] border border-[#8a8886]
+           transition-all duration-150
+           dark:bg-[#323130] dark:hover:bg-[#3b3a39] dark:text-[#f3f2f1] dark:border-[#605e5c]
+           select-none;
+  }
+
+  .mobile-btn-ghost {
+    @apply bg-transparent hover:bg-[#f3f2f1] active:bg-[#edebe9]
+           text-[#323130] hover:text-[#201f1e] font-semibold px-4 py-3 rounded-lg
+           min-h-[44px] transition-all duration-150
+           dark:hover:bg-[#323130] dark:text-[#c8c6c4] dark:hover:text-[#f3f2f1]
+           select-none;
+  }
+
+  .mobile-input {
+    @apply w-full px-3 py-3 rounded-lg
+           bg-white dark:bg-[#1b1a19]
+           border border-[#8a8886] dark:border-[#605e5c]
+           text-[#323130] dark:text-[#f3f2f1]
+           text-base /* 16px — prevents iOS zoom */
+           placeholder-[#a19f9d] dark:placeholder-[#605e5c]
+           focus:outline-none focus:border-[#0078D4] focus:ring-1 focus:ring-[#0078D4]
+           dark:focus:border-[#6cb8f6] dark:focus:ring-[#6cb8f6]
+           transition-colors duration-150
+           min-h-[44px];
+  }
+
+  .mobile-badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full
+           text-xs font-semibold whitespace-nowrap;
+  }
+
+  .mobile-section-title {
+    @apply text-base font-semibold text-[#323130] dark:text-[#f3f2f1];
+  }
+
+  .mobile-text-muted {
+    @apply text-[#605e5c] dark:text-[#a19f9d];
+  }
+
+  .mobile-divider {
+    @apply border-t border-[#edebe9] dark:border-[#3b3a39];
+  }
+
+  .mobile-stat-card {
+    @apply mobile-card p-4;
+  }
+
+  .mobile-alert-info {
+    @apply bg-[#ecfeff] dark:bg-[#06b6d420] border border-[#06B6D4] text-[#0e7490] dark:text-[#67E8F9] rounded-lg p-4;
+  }
+
+  .mobile-alert-success {
+    @apply bg-[#f0fdf4] dark:bg-[#22c55e20] border border-[#22C55E] text-[#15803d] dark:text-[#86EFAC] rounded-lg p-4;
+  }
+
+  .mobile-alert-warning {
+    @apply bg-[#fffbeb] dark:bg-[#f59e0b20] border border-[#F59E0B] text-[#92400e] dark:text-[#FCD34D] rounded-lg p-4;
+  }
+
+  .mobile-alert-danger {
+    @apply bg-[#fef2f2] dark:bg-[#ef444420] border border-[#EF4444] text-[#991b1b] dark:text-[#F87171] rounded-lg p-4;
+  }
+}
+
+/* ============================================
+ * Pull-to-Refresh Area
+ * ============================================ */
+
+.pull-to-refresh {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+  z-index: 10;
+  color: var(--text-muted);
+}
+
+.pull-to-refresh.visible {
+  transform: translateY(0);
+}
+
+.pull-to-refresh-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+ * Bottom Navigation Safe Area
+ * Accounts for iOS home indicator bar
+ * ============================================ */
+
+.mobile-bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background-color: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.dark .mobile-bottom-nav {
+  background-color: var(--bg);
+  border-top-color: var(--border);
+}
+
+/* Bottom nav spacer to prevent content from hiding behind fixed nav */
+.mobile-bottom-spacer {
+  height: calc(60px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Top safe area for status bar */
+.mobile-top-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* ============================================
+ * safe-top / safe-bottom — used by MobileLayout
+ * The shell is `fixed inset-0` so it escapes the html padding-* declared
+ * at the top of this file. These two classes let the header / bottom nav
+ * carry their own safe-area padding so they sit clear of the notch and
+ * the home indicator on iOS. They duplicate `mobile-top-safe` /
+ * `mobile-bottom-nav` (intentional — those carry extra styling, these are
+ * pure padding utilities).
+ * ============================================ */
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ============================================
+ * Focus visible — Accessibility (matches ERP)
+ * ============================================ */
+
+*:focus-visible {
+  outline: 2px solid #0078D4;
+  outline-offset: 1px;
+}
+
+.dark *:focus-visible {
+  outline-color: #6cb8f6;
+}
+
+/* ============================================
+ * Selection color (matches ERP)
+ * ============================================ */
+
+::selection {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.dark ::selection {
+  background-color: rgba(59, 130, 246, 0.3);
+  color: #e6edf3;
+}
+
+/* ============================================
+ * Mobile-specific utilities
+ * ============================================ */
+
+/* Smooth touch scrolling */
+.overflow-x-auto,
+.overflow-y-auto,
+.snap-x {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Snap scroll for horizontal carousels */
+.snap-x {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.snap-center {
+  scroll-snap-align: center;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Prevent long-press context menu on touch */
+.no-context-menu {
+  -webkit-touch-callout: none;
+}
+
+/* Prevent user selection on interactive elements */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Viewport-aware full height */
+.h-screen-safe {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* Safe area padding utilities (used by pages for iOS notch/home indicator) */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Content area that accounts for top bar + bottom nav */
+.mobile-content-area {
+  min-height: calc(100dvh - 60px - 60px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+}

@@ -1,0 +1,112 @@
+# Configuration Dependabot — mises à jour automatiques des dépendances
+# Voir https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+
+updates:
+  # ============================================
+  # Python (FastAPI, Streamlit, libs partagées)
+  # ============================================
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "America/Toronto"
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - python
+    commit-message:
+      prefix: "deps(python)"
+      include: scope
+    groups:
+      python-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # ============================================
+  # Frontend React — ERP
+  # ============================================
+  - package-ecosystem: npm
+    directory: "/ERP_REACT/frontend"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "America/Toronto"
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - frontend
+      - erp
+    commit-message:
+      prefix: "deps(erp-frontend)"
+      include: scope
+    groups:
+      frontend-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # ============================================
+  # Frontend React — Mobile
+  # ============================================
+  - package-ecosystem: npm
+    directory: "/MOBILE_REACT/frontend"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "America/Toronto"
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - frontend
+      - mobile
+    commit-message:
+      prefix: "deps(mobile-frontend)"
+      include: scope
+    groups:
+      frontend-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # ============================================
+  # Frontend React — SEAOP
+  # ============================================
+  - package-ecosystem: npm
+    directory: "/SEAOP_REACT/frontend"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "America/Toronto"
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - frontend
+      - seaop
+    commit-message:
+      prefix: "deps(seaop-frontend)"
+      include: scope
+    groups:
+      frontend-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # ============================================
+  # GitHub Actions
+  # ============================================
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
+      - ci
+    commit-message:
+      prefix: "deps(ci)"
