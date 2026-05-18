@@ -29,20 +29,22 @@
 1. [Pourquoi Constructo AI ?](#pourquoi-constructo-ai-)
 2. [À qui ça s'adresse ?](#à-qui-ça-sadresse-)
 3. [Les trois applications](#les-trois-applications)
-4. [Conçu pour la réalité québécoise](#conçu-pour-la-réalité-québécoise)
-5. [Calculateurs métier intégrés](#calculateurs-métier-intégrés)
-6. [Architecture technique](#architecture-technique)
-7. [Stack précise](#stack-précise)
-8. [Démarrage rapide](#démarrage-rapide)
-9. [Variables d'environnement](#variables-denvironnement)
-10. [Documentation de l'API](#documentation-de-lapi)
-11. [Tests et CI](#tests-et-ci)
-12. [Sécurité et mise en production](#sécurité-et-mise-en-production)
-13. [Comparaison avec les SaaS commerciaux](#comparaison-avec-les-saas-commerciaux)
-14. [Contribution](#contribution)
-15. [FAQ](#faq)
-16. [Licence et attribution](#licence-et-attribution)
-17. [Support et contact](#support-et-contact)
+4. [Fonctionnalités phares](#fonctionnalités-phares)
+5. [Conçu pour la réalité québécoise](#conçu-pour-la-réalité-québécoise)
+6. [Calculateurs métier intégrés](#calculateurs-métier-intégrés)
+7. [Architecture technique](#architecture-technique)
+8. [Stack précise](#stack-précise)
+9. [Démarrage rapide](#démarrage-rapide)
+10. [Variables d'environnement](#variables-denvironnement)
+11. [Documentation de l'API](#documentation-de-lapi)
+12. [Tests et CI](#tests-et-ci)
+13. [Sécurité et mise en production](#sécurité-et-mise-en-production)
+14. [Comparaison avec les SaaS commerciaux](#comparaison-avec-les-saas-commerciaux)
+15. [Limitations connues et feuille de route](#limitations-connues-et-feuille-de-route)
+16. [Contribution](#contribution)
+17. [FAQ](#faq)
+18. [Licence et attribution](#licence-et-attribution)
+19. [Support et contact](#support-et-contact)
 
 ---
 
@@ -72,15 +74,52 @@ Les ERP construction commerciaux (Procore, Buildertrend, Sage 100, Maestro\*) so
 ## Les trois applications
 
 ### 🏢 ERP_REACT — ERP web multi-tenant
-**Backend FastAPI (28 routers) + Frontend React (46 pages, 36 stores Zustand).** Le cœur de la plateforme : CRM, projets, devis, comptabilité, facturation, paie québécoise, inventaire, conformité, immobilier, B2B, intégration Stripe, OCR de factures par Claude, métré sur plans PDF, éditeur de plans 2D vectoriel, visualisation 3D des murs paramétriques.
+**Backend FastAPI (35 routers) + Frontend React (45 pages, 36 stores Zustand).** Le cœur de la plateforme. CRM, projets (avec dépendances et Gantt), devis et soumissions, comptabilité avec OCR factures par Claude Vision, facturation, paie québécoise CCQ, inventaire, conformité (RBQ/CCQ/CNESST/Revenu Québec/ARC), gestion immobilière (Loi 16), portail B2B, intégration Stripe, métré interactif sur plans PDF, visualisation 3D des murs paramétriques, 11 calculateurs métier, 6 profils d'assistants IA pré-configurés plus système d'experts personnalisables par tenant.
 
 ### 📱 MOBILE_REACT — PWA mobile terrain
-**Backend FastAPI + Frontend React PWA (19 pages, manifest installable).** Pointage CCQ avec GPS et météo intégrée, notes vocales enrichies par IA, photos chantier géolocalisées, bons de travail assignés, messagerie d'équipe en temps réel, audit log conforme Loi 25, paiement par Stripe Payment Links.
+**Backend FastAPI + Frontend React PWA installable (19 pages, manifest standalone).** Pointage CCQ avec GPS obligatoire et snapshot météo Open-Meteo, photos chantier validées par magic bytes (≤5 Mo, ≤8 par note), notes vocales enrichies par Claude (transcription + analyse de photo Vision + résumé de dossier), bons de travail assignés avec signature électronique, messagerie d'équipe (canaux publics + DM + threads + réactions), audit log polymorphe Loi 25 avec filtrage granulaire, Stripe Payment Links auto-générés par facture avec webhook de fermeture automatique.
 
 ### 📋 SEAOP_REACT — Plateforme publique d'appels d'offres
-**Backend FastAPI (10 routers) + Frontend React (12 pages).** Conforme aux exigences québécoises : couvre les **18 régions administratives**, valide les licences **RBQ**, exige le cautionnement, messagerie bilatérale client/entrepreneur, évaluation post-projet.
+**Backend FastAPI (10 routers) + Frontend React (12 pages).** Conforme aux exigences québécoises : 17 régions administratives officielles, validation des licences RBQ, cautionnement modélisé (inclusion, montant, type), messagerie bilatérale client/entrepreneur par projet, évaluation 1-5 étoiles post-projet, service public d'estimation avec wizard et traitement administrateur, calcul automatique d'urgence basé sur le délai restant.
 
-Les trois applications partagent ****27 modules Python communs**** à la racine du dépôt (auth, multi-tenant, sécurité, Stripe, IA, monitoring, cache, taxes) et une base **PostgreSQL** unique avec **isolation par schémas tenant**.
+Les trois applications partagent **27 modules Python communs** à la racine du dépôt (auth, multi-tenant, sécurité, Stripe, IA, monitoring, cache, taxes) et une base **PostgreSQL** unique avec **isolation par schémas tenant**.
+
+---
+
+## Fonctionnalités phares
+
+Quelques composants distinctifs qui sortent du cadre habituel d'un ERP générique :
+
+### 🧾 OCR de factures fournisseurs par Claude Vision
+Le router `accounting` expose `/invoices/ai/scan` qui pousse une image (JPEG/PNG) ou un PDF multi-pages (≤20 Mo) vers **`claude-sonnet-4-6`** avec vision. Claude extrait : numéro, date, fournisseur (matché par similarité contre la base existante), montants HT/TPS/TVQ, lignes de détail, conditions de paiement — et retourne un **score de confiance** sur chaque champ. La facturation utilisateur passe par un système de **crédits prépayés** (table `ai_prepaid_credits`) avec ajustement +30 % sur le coût Anthropic, rechargeable via Stripe.
+
+### 📐 Métré interactif sur plans PDF
+Le module `metre_pdf` rend les PDF côté serveur via **PyMuPDF (fitz)** avec cache 50 pages (TTL 1h), puis le frontend `metre-pdf/` superpose un canvas Fabric.js. Fonctionnalités :
+- **Calibration par page** (1 segment connu → échelle pixel/unité réelle)
+- **Snap magnétique 4 points** : extrémité, milieu, intersection, perpendiculaire
+- **Types de mesure** : distance, surface, périmètre, angle, comptage
+- **Organisation par calques** avec couleurs et visibilité
+- **Liaison automatique au catalogue produits** (une mesure → un produit → un devis)
+- **Export CSV/JSON** avec résumé par page et par calque
+- **Export PNG haute résolution** pour annexer à un devis (résolution adaptative, 6000 px max)
+
+### 🏗️ Visualisation 3D des murs paramétriques
+Le composant `MurWall3D.tsx` utilise **three.js + @react-three/fiber + @react-three/drei** pour afficher en temps réel un mur paramétrique avec ses couches (structure, isolant, pare-vapeur, finition intérieure/extérieure), épaisseurs et coefficients thermiques RSI. Contrôles orbitaux pour inspecter sous tous les angles.
+
+### 🤖 Assistants IA spécialisés + experts personnalisables
+**6 profils pré-configurés** dans `AI_PROFILES` : Expert Construction (RBQ/CCQ/CNB), Estimateur, Comptable Construction, Conseiller Juridique, Expert Sécurité (CNESST/SST), Assistant général polyvalent. Le profil général adapte automatiquement son expertise à 11 spécialités (électricité, plomberie, structure, toiture, isolation, soudure, gestion ERP…). En plus : chaque tenant peut **créer ses propres experts** avec documents attachés (PDF, manuels, normes internes) que l'IA utilise comme base de connaissance. Modèle utilisé : `claude-sonnet-4-6`. Outils IA : `recherche_bd` (SELECT seulement, avec garde anti-injection) et `executer_action` (mutations contrôlées par permissions).
+
+### 📱 Pointage CCQ géolocalisé avec météo
+Le pointage mobile (`/punch/in`, `/punch/out`) capture **obligatoirement** la position GPS. Si le GPS est indisponible (permissions refusées, desktop), fallback vers l'adresse du chantier rattaché au bon de travail. Chaque entrée enregistre un **snapshot météo Open-Meteo** (température, précipitations, humidité, vent) — utile pour justifier un retard ou documenter une intervention par mauvais temps.
+
+### 💳 Paiement de factures par Stripe Payment Links
+Pour chaque facture, l'endpoint `/documents/factures/{id}/payment-link` crée à la demande un **Product + Price + PaymentLink** Stripe en CAD, stocke l'URL en base et la retourne. Le webhook `checkout.session.completed` marque automatiquement la facture en `PAYEE`. Le lien est mis en cache : redemandé → renvoyé tel quel sans nouvel appel Stripe.
+
+### 🔍 Audit log polymorphe Loi 25
+Une table `audit_events` unique couvre toutes les entités (factures, devis, dossiers, pointages, employés, sessions). L'endpoint `/audit/events` permet de filtrer par `entity_type`, `entity_id`, `employee`, `action` (create/update/delete/login/punch_in/punch_out), `timeframe` (since/until ISO 8601). Réservé aux administrateurs, pagination par offset, 500 événements maximum par page — suffisant pour répondre à une demande d'accès Loi 25 ou un audit interne.
+
+### 🧪 Bac à sable SQL contrôlé pour l'IA
+Quand l'utilisateur pose une question business à l'assistant IA ("combien de factures impayées de plus de 30 jours ?"), Claude génère une requête SQL via l'outil `recherche_bd`. Avant exécution, un filtre bloque les mots-clés dangereux (`DROP`, `TRUNCATE`, `ALTER`, `CREATE`, `GRANT`, `REVOKE`, etc.), force `SELECT`, et restreint l'exécution au schéma du tenant courant. Aucune mutation possible via ce canal — les modifications passent par `executer_action` qui valide les permissions explicitement.
 
 ---
 
@@ -89,32 +128,37 @@ Les trois applications partagent ****27 modules Python communs**** à la racine 
 | Domaine | Détail |
 |---|---|
 | **Taxes** | TPS 5 % + TVQ 9,975 % calculées et déclarées automatiquement |
-| **Paie CCQ** | Taux convention collective 2025-2029, retenues RRQ, RQAP, FSS, CNESST, AE, impôt provincial et fédéral |
-| **Licences RBQ** | Validation des numéros RBQ, sous-catégories, statut actif/suspendu |
-| **CNESST** | Codes d'unités, taux personnalisés par classe de risque |
-| **Loi 16 (immobilier)** | Fonds de prévoyance, plan triennal d'entretien, carnet de bâtiment |
-| **Loi 25 (vie privée)** | Audit log polymorphe, consentement, droit à l'oubli, journalisation des accès |
-| **18 régions administratives** | Filtrage géographique conforme au découpage officiel du Québec |
-| **Code du bâtiment** | Référencement des chapitres applicables dans les modules de conformité |
+| **Paie CCQ** | **28 métiers** avec qualifications (Apprenti 4 périodes, Grutier 4 classes, Soudeur 3 classes, Opérateur d'équipement lourd 4 classes, etc.), retenues RRQ, RQAP, FSS, CNESST, AE, impôt provincial et fédéral, taux 2025 intégrés |
+| **5 attestations québécoises** | Revenu Québec, ARC, CNESST, CCQ (état de situation), RBQ (solvabilité) — gestion centralisée des dates d'échéance et alertes |
+| **Licences RBQ** | Stockage et association aux entrepreneurs et soumissions (validation de format, expirations) |
+| **CNESST** | Codes d'unités, taux par classe de risque, cotisations employeur |
+| **Loi 16 (immobilier)** | Fonds de prévoyance, plan triennal d'entretien, carnet de bâtiment, déblocages, inspections |
+| **Loi 25 (vie privée)** | Audit log polymorphe, traçabilité complète des accès aux données personnelles, export pour demandes d'accès |
+| **17 régions administratives** + Autre | Découpage officiel du Québec, du Bas-Saint-Laurent à la Côte-Nord, filtrage géographique sur appels d'offres |
+| **7 types de projet** | Résidentiel unifamilial, résidentiel multifamilial, commercial, industriel, institutionnel, rénovation majeure, agrandissement |
+| **Code du bâtiment** | Référencement des chapitres applicables dans les modules de conformité (CNB, CSA A23.3, CSA C22.1, CSA W47.1) |
 
 ---
 
 ## Calculateurs métier intégrés
 
-Plus d'une dizaine de calculateurs métier conformes aux normes locales, accessibles depuis l'ERP web ou exposés via API :
+**11 calculateurs** implémentés dans `routers/calculators.py`, conformes aux normes locales, accessibles depuis l'ERP web ou exposés via API REST :
 
-- **Béton** — volume, sacs, livraison, dosage
-- **Toiture** — bardeaux, membrane, ventilation, pentes
-- **Peinture** — surfaces, couches, rendement par produit
-- **Électricité** — calibre fils, ampérage, circuits, NEC/CCEQ
-- **Plomberie** — pertes de charge, diamètres, raccords
-- **CVAC** — charges thermiques, sélection d'équipements
-- **Escaliers** — giron, contremarche, conformité Code du bâtiment
-- **Soudure** — électrodes, gaz, ampérage par épaisseur
-- **Pliage métal** — développement, allowances, séquences
-- **Taxes Québec** — TPS/TVQ avec gestion des exonérations
+| Calculateur | Entrées | Sortie / formule clé |
+|---|---|---|
+| **Béton** | Longueur × largeur × épaisseur (m) | Volume m³ + dosage (300 kg ciment, 700 kg sable, 1 200 kg gravier/m³) + nb sacs |
+| **Escaliers** | Hauteur totale, giron cible (mm) | Nombre de marches, contremarches, conformité **CCQ 2R+G ∈ [580-660] mm** |
+| **Électricité** | Puissance (W), tension (V), longueur (m) | Chute de tension, **calibre AWG**, ampérage disjoncteur (CSA C22.1) |
+| **Toiture** | Longueur × largeur, pente (x:12) | Surface réelle (pente), nb carrés (9,29 m²), bundles bardeaux |
+| **Peinture** | Surface pièce, portes, fenêtres | Litres requis (10 m²/L par défaut), nb couches |
+| **Plomberie** | Nombre de fixtures (toilettes, lavabos, douches…) | Diamètres tuyauterie, raccords |
+| **CVAC** | Surface (m²), isolation, zone climatique | Capacité BTU requise, sélection équipement |
+| **Soudure** | Type de joint, épaisseur, longueur | Électrodes, gaz, ampérage par épaisseur (CSA W47.1) |
+| **Pliage métal** | Longueur, angle, matériau | Développement, allowance, retour élastique |
+| **Poids métal** | Forme (plaque/tube), matériau, dimensions | Poids (densités intégrées : acier 7 850, alu 2 700 kg/m³) |
+| **Taxes Québec** | Montant HT | TPS 5 %, TVQ 9,975 %, TTC |
 
-Tous les résultats sont **versionnés**, **traçables** (qui a calculé quoi, quand) et **exportables** en PDF ou Excel pour intégration à un devis.
+Tous les résultats sont **versionnés**, **traçables** (qui a calculé quoi, quand) et **exportables** en PDF ou Excel pour intégration directe à un devis.
 
 ---
 
@@ -137,7 +181,7 @@ Tous les résultats sont **versionnés**, **traçables** (qui a calculé quoi, q
    ┌─────▼─────────────────────▼───────────────────▼──────┐
    │              FastAPI backends (Python 3.11+)         │
    │  erp_api:8003   mobile_api:8003   seaop_api:8002     │
-   │  28 routers     1 routeur monolithique   10 routers  │
+   │  35 routers     1 routeur monolithique   10 routers  │
    └─────┬─────────────────────┬───────────────────┬──────┘
          │                     │                   │
          │   ┌─────────────────▼─────────────────┐ │
@@ -385,6 +429,25 @@ Un scan complet supplémentaire tourne **chaque lundi à 02h00 EDT** pour capter
 | **Données souveraines** | ✅ Hébergement QC possible | ❌ US | ❌ US | ✅ |
 
 *Les détails et tarifs des concurrents sont fournis à titre informatif et peuvent varier — vérifiez auprès des éditeurs.*
+
+---
+
+## Limitations connues et feuille de route
+
+Par transparence — voici ce qui n'est **pas encore** dans le code et ce sur quoi des contributions seraient particulièrement bienvenues :
+
+| Limite actuelle | Détail | Statut |
+|---|---|---|
+| **Sync offline mobile complète** | Le manifest PWA permet l'installation, mais le Service Worker ne supporte pas encore les écritures hors ligne (punch, notes, photos) avec resync différée | 🟡 Partiel |
+| **Validation RBQ via API externe** | Les numéros RBQ sont stockés et associés mais leur validation se fait sur format seulement (pas d'appel à la base publique de la RBQ) | 🟡 Format uniquement |
+| **Filtrage géographique par MRC** | Le filtrage SEAOP fonctionne via codes postaux et nom de région. Un mapping postal→MRC officielle n'est pas câblé | 🟡 Codes postaux |
+| **Évaluation post-projet bidirectionnelle** | SEAOP permet l'évaluation client→entrepreneur. L'inverse (entrepreneur→client) n'est pas exposé | 🟡 Unidirectionnel |
+| **Import depuis Procore / Buildertrend** | Des scripts CSV existent pour les structures standards, mais pas de connecteur API direct | 🟡 CSV seulement |
+| **Export DXF / IFC** | Le métré exporte CSV/JSON et PNG haute résolution. L'export vers DXF/IFC pour réintégration CAO n'est pas implémenté | 🔴 À faire |
+| **Notifications temps réel** | Les notifications passent par email/polling, pas de WebSocket persistant | 🔴 À faire |
+| **Tests E2E frontend** | Couverture pytest sur le backend uniquement. Playwright/Cypress non configurés | 🔴 À faire |
+
+Ces points sont identifiés comme **good first contributions** pour les développeurs souhaitant rejoindre le projet. Voir aussi [Contribution](#contribution).
 
 ---
 
