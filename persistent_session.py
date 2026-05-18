@@ -32,8 +32,23 @@ logger = logging.getLogger(__name__)
 SESSION_COOKIE_DAYS = 7
 SESSION_COOKIE_NAME = "constructo_session"
 
-# Clé secrète pour signer les tokens
-SESSION_SECRET = os.environ.get('SESSION_SECRET', 'constructo-ai-secret-key-2024')
+# Clé secrète pour signer les tokens — JAMAIS de valeur par défaut hardcodée.
+# En prod : doit être défini via env var, sinon le module refuse de fonctionner.
+# En dev : clé aléatoire générée pour le processus (sessions perdues au redémarrage).
+SESSION_SECRET = os.environ.get('SESSION_SECRET')
+if not SESSION_SECRET:
+    if os.environ.get('ENVIRONMENT', 'development').lower() == 'production':
+        raise RuntimeError(
+            "SESSION_SECRET doit être défini en production. "
+            "Générer avec: python -c \"import secrets; print(secrets.token_urlsafe(64))\""
+        )
+    import secrets as _secrets
+    SESSION_SECRET = _secrets.token_urlsafe(64)
+    import logging as _logging
+    _logging.getLogger(__name__).warning(
+        "SESSION_SECRET non défini — clé aléatoire générée. "
+        "Les sessions ne survivront pas au redémarrage du processus."
+    )
 
 # ============================================
 # GESTION DES COOKIES (streamlit-cookies-controller)

@@ -1,0 +1,31 @@
+# Configuration Gitleaks — allowlist pour faux positifs documentaires.
+# https://github.com/gitleaks/gitleaks#configuration
+
+# On hérite de la config par défaut (toutes les règles standard restent actives).
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Faux positifs : documentation, exemples, valeurs placeholder"
+
+# Documentation : les manuels utilisateur contiennent des exemples de chaînes
+# longues (tokens publics fictifs, identifiants démo) qui ne sont pas des
+# secrets réels. Ces fichiers sont uniquement de la documentation.
+paths = [
+    '''.*/docs/.*\.md$''',
+    '''docs/.*\.md$''',
+    '''.*\.example$''',
+    '''\.env\.example$''',
+]
+
+# Patterns à ignorer (placeholders connus, valeurs d'exemple)
+regexes = [
+    '''your-secure-random-string-here''',
+    '''your-secret-key-here''',
+    '''test-secret-for-pytest''',
+    '''sk-ant-test-key-not-real''',
+    '''sk_test_not_real''',
+    '''whsec_test_not_real''',
+    '''dev-secret-change-in-production''',
+    '''generate.*token_urlsafe''',
+]

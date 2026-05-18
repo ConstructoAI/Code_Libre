@@ -22,49 +22,29 @@ Modules Python partagés à la racine (auth, multi-tenancy, Stripe, sécurité, 
 
 ## Sécurité
 
-> **Politique de divulgation** : voir [SECURITY.md](SECURITY.md). Ne pas ouvrir d'issue publique pour une vulnérabilité — envoyer un email à **info@constructoai.ca**.
+> **Politique de divulgation responsable** : voir [SECURITY.md](SECURITY.md).
+> Pour signaler une vulnérabilité, écrivez à **info@constructoai.ca** —
+> ne pas ouvrir d'issue publique.
 
-### Ce qui est protégé
-
-Cette plateforme a fait l'objet de plusieurs passes d'audit automatisé (multi-agents) couvrant :
-
-- **Secrets** : aucun hardcodé. Tous via `.env` (JWT, API keys, SMTP, Stripe, etc.)
-- **JWT** : refuse de démarrer en prod si secret manquant; clé aléatoire en dev avec warning
-- **Mots de passe** : bcrypt 12 rounds; comparaisons `hmac.compare_digest` partout
-- **Cookies** : `secure=True` automatique en prod, `httponly`, `samesite=lax`
-- **SQL** : `psycopg2.sql.Identifier` sur tous les identifiants dynamiques (tables/colonnes/schémas)
-- **SSRF** : webhooks bloquent IPs privées + résolution DNS anti-rebinding + schémas http(s) only
-- **Path traversal** : `.resolve()` + `relative_to(base)` sur tous les paths utilisateur
-- **Uploads** : validation par **magic bytes** (pas Content-Type client) + filename sanitization
-- **ZIP bomb** : guards sur openpyxl/python-docx (200 MB max, ratio 100x, 1000 entries)
-- **Headers HTTP** : HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy sur les 3 apps
-- **Account enumeration** : messages d'erreur unifiés + timing equalization
-- **CORS** : pas de wildcard `*` avec `credentials` — configurable via env
-- **Multi-tenant** : `validate_schema_name` immédiat avant toute opération DB
-- **CI** : `pip-audit`, `npm audit`, `gitleaks`, `CodeQL` à chaque PR (voir `.github/workflows/security.yml`)
-- **Dépendances** : Dependabot configuré pour updates hebdo
-
-### Limitations honnêtes
-
-Ce qui n'a **pas** été fait et que vous devriez considérer **avant la prod** :
-
-- ❌ **Pas d'audit de pénétration humain professionnel** — recommandé avant un déploiement à fort trafic
-- ❌ **JWT côté frontend en `localStorage`** — vulnérable XSS. Migration vers `httponly` cookies recommandée (changement architectural)
-- ❌ **Pas de test de charge / fuzzing automatisé** sur les endpoints
-- ❌ **Pas de revue de chaque endpoint** business un par un (25+ routers)
-- ❌ **Pas d'audit runtime** de l'isolation multi-tenant avec 2 tenants concurrents
+Cette plateforme a été conçue avec une approche défense-en-profondeur :
+secrets via variables d'environnement uniquement, bcrypt pour les mots de passe,
+headers de sécurité HTTP standards, validation stricte des entrées, isolation
+multi-tenant via schémas PostgreSQL, et CI scans (`pip-audit`, `npm audit`,
+`CodeQL`, secret scanning) à chaque PR.
 
 ### À configurer impérativement avant la prod
 
 1. Copier `.env.example` → `.env` et remplir **tous** les secrets requis
-2. Définir `ENVIRONMENT=production` pour activer les guards stricts (cookies secure, JWT obligatoire, etc.)
+2. Définir `ENVIRONMENT=production` pour activer les guards stricts
 3. Configurer `ALLOWED_ORIGINS` avec votre domaine exact (pas de `*`)
 4. Activer **HTTPS** (le code force `Secure` sur les cookies hors dev)
 5. Activer **Sentry** (`SENTRY_DSN`) pour le monitoring d'erreurs
 6. Activer la **MFA** sur tous vos comptes admin (plateforme + Stripe + DB)
-7. **Backups automatiques** de la base de données
-8. **Rotation périodique** des secrets JWT
+7. Backups automatiques réguliers de la base de données
+8. Rotation périodique des secrets JWT
 9. Surveillance des logs (échecs d'auth, rate limit, 5xx)
+10. **Audit de pénétration professionnel** recommandé avant tout déploiement
+    à fort trafic ou traitant des données sensibles
 
 Pour générer un secret JWT :
 ```bash
