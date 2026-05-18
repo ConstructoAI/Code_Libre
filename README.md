@@ -1,51 +1,225 @@
-# Constructo AI — Plateforme à code libre pour la construction au Québec
+<p align="center">
+  <a href="https://constructoai.ca">
+    <img src="https://img.shields.io/badge/Constructo_AI-Plateforme_construction_Qu%C3%A9bec-002050?style=for-the-badge" alt="Constructo AI" />
+  </a>
+</p>
 
-> **Premier ERP construction à code libre au Québec.** Un écosystème complet conçu pour les entrepreneurs québécois, regroupant trois applications bâties sur une fondation Python/React commune.
+<h1 align="center">Constructo AI — Plateforme à code libre pour la construction au Québec</h1>
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
-[![React 18](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
-[![PostgreSQL 14+](https://img.shields.io/badge/PostgreSQL-14+-336791.svg)](https://www.postgresql.org/)
-[![Made in Québec](https://img.shields.io/badge/Made_in-Qu%C3%A9bec-fed800.svg)](https://constructoai.ca)
+<p align="center">
+  <strong>Le premier écosystème ERP open source pensé pour les entrepreneurs québécois.</strong><br/>
+  Trois applications. Une fondation Python + React. Des règles métier conformes à la réalité du Québec.
+</p>
+
+<p align="center">
+  <a href="https://github.com/ConstructoAI/Code_Libre/actions/workflows/security.yml"><img src="https://github.com/ConstructoAI/Code_Libre/actions/workflows/security.yml/badge.svg" alt="Security scan" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License Apache 2.0" /></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11+-blue.svg" alt="Python 3.11+" /></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-18.3-61dafb.svg" alt="React 18.3" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.6-3178c6.svg" alt="TypeScript 5.6" /></a>
+  <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-0.115+-009688.svg" alt="FastAPI" /></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-14+-336791.svg" alt="PostgreSQL 14+" /></a>
+  <a href="https://constructoai.ca"><img src="https://img.shields.io/badge/Made_in-Qu%C3%A9bec-fed800.svg" alt="Made in Québec" /></a>
+</p>
 
 ---
 
-## 📦 Les trois applications
+## Table des matières
 
-| Application | Description | Points forts |
+1. [Pourquoi Constructo AI ?](#pourquoi-constructo-ai-)
+2. [À qui ça s'adresse ?](#à-qui-ça-sadresse-)
+3. [Les trois applications](#les-trois-applications)
+4. [Conçu pour la réalité québécoise](#conçu-pour-la-réalité-québécoise)
+5. [Calculateurs métier intégrés](#calculateurs-métier-intégrés)
+6. [Architecture technique](#architecture-technique)
+7. [Stack précise](#stack-précise)
+8. [Démarrage rapide](#démarrage-rapide)
+9. [Variables d'environnement](#variables-denvironnement)
+10. [Documentation de l'API](#documentation-de-lapi)
+11. [Tests et CI](#tests-et-ci)
+12. [Sécurité et mise en production](#sécurité-et-mise-en-production)
+13. [Comparaison avec les SaaS commerciaux](#comparaison-avec-les-saas-commerciaux)
+14. [Contribution](#contribution)
+15. [FAQ](#faq)
+16. [Licence et attribution](#licence-et-attribution)
+17. [Support et contact](#support-et-contact)
+
+---
+
+## Pourquoi Constructo AI ?
+
+Les ERP construction commerciaux (Procore, Buildertrend, Sage 100, Maestro\*) sont conçus pour le marché américain ou ontarien : taxes mal câblées, conformité RBQ absente, paie CCQ inexistante, données hébergées à l'étranger. Les TPE/PME québécoises de construction se retrouvent à bricoler dans Excel ou à payer 200-500 $/mois par utilisateur pour un produit qui ne parle pas leur réalité.
+
+**Constructo AI** est la réponse open source à ce problème. Apache 2.0, code librement modifiable, hébergeable sur votre propre infrastructure, et calibré au millimètre pour la conformité québécoise — TPS/TVQ, RBQ, CCQ, CNESST, Loi 16, Loi 25, RRQ, RQAP, FSS.
+
+> **Vision :** mettre entre les mains des entrepreneurs québécois un outil qu'ils peuvent inspecter, adapter, héberger et auditer — sans abonnement captif ni boîte noire.
+
+---
+
+## À qui ça s'adresse ?
+
+| Profil | Cas d'usage typique |
+|---|---|
+| **Entrepreneur général** | CRM clients, devis/soumissions, projets, facturation, paie CCQ, comptabilité, conformité RBQ |
+| **Sous-traitant spécialisé** | Pointage GPS terrain, bons de travail mobile, gestion d'équipes, factures rapides |
+| **Donneur d'ouvrage public/privé** | Lancement d'appels d'offres conformes Québec (SEAOP), évaluation des soumissions, traçabilité |
+| **Gestionnaire immobilier** | Suivi de patrimoine, fonds de prévoyance, maintenance préventive, conformité Loi 16 |
+| **Développeur / intégrateur** | Fork, adaptation à un métier voisin (rénovation résidentielle, paysagement, démolition), revente |
+| **Consultant ou comptable construction** | Mandat blanc/marque blanche pour vos clients PME |
+
+---
+
+## Les trois applications
+
+### 🏢 ERP_REACT — ERP web multi-tenant
+**Backend FastAPI (28 routers) + Frontend React (46 pages, 36 stores Zustand).** Le cœur de la plateforme : CRM, projets, devis, comptabilité, facturation, paie québécoise, inventaire, conformité, immobilier, B2B, intégration Stripe, OCR de factures par Claude, métré sur plans PDF, éditeur de plans 2D vectoriel, visualisation 3D des murs paramétriques.
+
+### 📱 MOBILE_REACT — PWA mobile terrain
+**Backend FastAPI + Frontend React PWA (19 pages, manifest installable).** Pointage CCQ avec GPS et météo intégrée, notes vocales enrichies par IA, photos chantier géolocalisées, bons de travail assignés, messagerie d'équipe en temps réel, audit log conforme Loi 25, paiement par Stripe Payment Links.
+
+### 📋 SEAOP_REACT — Plateforme publique d'appels d'offres
+**Backend FastAPI (10 routers) + Frontend React (12 pages).** Conforme aux exigences québécoises : couvre les **18 régions administratives**, valide les licences **RBQ**, exige le cautionnement, messagerie bilatérale client/entrepreneur, évaluation post-projet.
+
+Les trois applications partagent ****27 modules Python communs**** à la racine du dépôt (auth, multi-tenant, sécurité, Stripe, IA, monitoring, cache, taxes) et une base **PostgreSQL** unique avec **isolation par schémas tenant**.
+
+---
+
+## Conçu pour la réalité québécoise
+
+| Domaine | Détail |
+|---|---|
+| **Taxes** | TPS 5 % + TVQ 9,975 % calculées et déclarées automatiquement |
+| **Paie CCQ** | Taux convention collective 2025-2029, retenues RRQ, RQAP, FSS, CNESST, AE, impôt provincial et fédéral |
+| **Licences RBQ** | Validation des numéros RBQ, sous-catégories, statut actif/suspendu |
+| **CNESST** | Codes d'unités, taux personnalisés par classe de risque |
+| **Loi 16 (immobilier)** | Fonds de prévoyance, plan triennal d'entretien, carnet de bâtiment |
+| **Loi 25 (vie privée)** | Audit log polymorphe, consentement, droit à l'oubli, journalisation des accès |
+| **18 régions administratives** | Filtrage géographique conforme au découpage officiel du Québec |
+| **Code du bâtiment** | Référencement des chapitres applicables dans les modules de conformité |
+
+---
+
+## Calculateurs métier intégrés
+
+Plus d'une dizaine de calculateurs métier conformes aux normes locales, accessibles depuis l'ERP web ou exposés via API :
+
+- **Béton** — volume, sacs, livraison, dosage
+- **Toiture** — bardeaux, membrane, ventilation, pentes
+- **Peinture** — surfaces, couches, rendement par produit
+- **Électricité** — calibre fils, ampérage, circuits, NEC/CCEQ
+- **Plomberie** — pertes de charge, diamètres, raccords
+- **CVAC** — charges thermiques, sélection d'équipements
+- **Escaliers** — giron, contremarche, conformité Code du bâtiment
+- **Soudure** — électrodes, gaz, ampérage par épaisseur
+- **Pliage métal** — développement, allowances, séquences
+- **Taxes Québec** — TPS/TVQ avec gestion des exonérations
+
+Tous les résultats sont **versionnés**, **traçables** (qui a calculé quoi, quand) et **exportables** en PDF ou Excel pour intégration à un devis.
+
+---
+
+## Architecture technique
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Utilisateurs                            │
+│   Web ERP (5174)    Mobile PWA (5175)    Public SEAOP (5173)    │
+└────────┬────────────────────┬───────────────────┬───────────────┘
+         │                    │                   │
+   ┌─────▼──────┐       ┌─────▼──────┐      ┌─────▼──────┐
+   │ React 18   │       │ React PWA  │      │ React 18   │
+   │ Vite + TS  │       │ Vite + TS  │      │ Vite + TS  │
+   │ Zustand    │       │ Zustand    │      │ Zustand    │
+   └─────┬──────┘       └─────┬──────┘      └─────┬──────┘
+         │                    │                   │
+         │ HTTPS / JWT        │ HTTPS / JWT       │ HTTPS / JWT
+         │                    │                   │
+   ┌─────▼─────────────────────▼───────────────────▼──────┐
+   │              FastAPI backends (Python 3.11+)         │
+   │  erp_api:8003   mobile_api:8003   seaop_api:8002     │
+   │  28 routers     1 routeur monolithique   10 routers  │
+   └─────┬─────────────────────┬───────────────────┬──────┘
+         │                     │                   │
+         │   ┌─────────────────▼─────────────────┐ │
+         │   │    27 modules Python partagés     │ │
+         │   │ auth · multi-tenant · sécurité    │ │
+         │   │ Stripe · IA · cache · monitoring  │ │
+         │   └─────────────────┬─────────────────┘ │
+         │                     │                   │
+   ┌─────▼─────────────────────▼───────────────────▼──────┐
+   │          PostgreSQL 14+ — multi-tenant               │
+   │   schéma public            schéma tenant_<uuid>      │
+   │   (clients, api_keys)      (données isolées par     │
+   │                             entreprise cliente)      │
+   └──────────────────────────────────────────────────────┘
+         │                     │                   │
+   ┌─────▼──────┐       ┌──────▼─────┐      ┌──────▼─────┐
+   │  Stripe    │       │ Anthropic  │      │  Sentry    │
+   │  paiements │       │ Claude API │      │ monitoring │
+   └────────────┘       └────────────┘      └────────────┘
+```
+
+### Isolation multi-tenant
+
+L'isolation entre clients (« tenants ») repose sur le mécanisme natif de **schémas PostgreSQL** :
+
+1. Le schéma `public` contient la table maître des entreprises clientes (`entreprises`, `api_keys`, super-administrateurs).
+2. Chaque client reçoit un schéma dédié `tenant_<nom>_<uuid>` (pattern validé par regex) qui contient **toutes ses données métier**.
+3. À chaque requête HTTP, le middleware résout l'identité du tenant à partir du JWT et exécute `SET search_path = tenant_<…>, public` sur la connexion.
+4. Avant que la connexion ne retourne au pool, le `search_path` est explicitement remis à `public` — sinon la connexion est détruite pour éviter toute fuite de contexte entre clients.
+
+Ce modèle est plus simple à opérer qu'une base par tenant (une seule base à sauvegarder) tout en garantissant qu'aucune requête mal écrite ne peut traverser la frontière de schéma.
+
+---
+
+## Stack précise
+
+### Backend (Python 3.11+)
+
+| Domaine | Bibliothèque | Version |
 |---|---|---|
-| **ERP_REACT** | ERP web multi-tenant pour entrepreneurs | CRM, projets, comptabilité, facturation, inventaire, paie québécoise complète, 40+ modules |
-| **MOBILE_REACT** | Application mobile PWA terrain | Pointage CCQ avec GPS et météo, notes vocales enrichies par IA, messagerie d'équipe, bons de travail |
-| **SEAOP_REACT** | Plateforme d'appels d'offres publics | Conforme aux exigences du Québec — 18 régions administratives, validation RBQ, cautionnement |
+| Framework HTTP | FastAPI · Uvicorn | 0.115+ · 0.32+ |
+| Base de données | SQLAlchemy · psycopg2-binary · Alembic | 2.0+ · 2.9.10+ · 1.14+ |
+| Validation | Pydantic | v2 |
+| Authentification | python-jose · bcrypt · cryptography | JWT · 5.0+ · 46.0+ |
+| IA | anthropic (Claude API) | 0.67+ |
+| Paiements | stripe | 11.3+ |
+| Monitoring | sentry-sdk | 2.19+ |
+| Documents | reportlab · pypdf · python-docx | génération PDF/DOCX |
+| Géospatial | folium · geopy | cartes et géocodage |
+| CAO/3D | trimesh · ezdxf · ifcopenshell | parsing 3D/BIM |
+| Tests | pytest · pytest-asyncio · httpx | — |
 
-Toutes les applications partagent une **fondation Python (FastAPI) + React 18 (Vite)** avec une base de données **PostgreSQL multi-tenant** (schémas isolés par client).
+### Frontend (Node 20+)
+
+| Domaine | Bibliothèque | Version |
+|---|---|---|
+| Framework | React · TypeScript | 18.3 · 5.6 |
+| Bundler | Vite | 6.0 |
+| Routing | react-router-dom | 6.28 |
+| State | Zustand | 5.0 |
+| HTTP | axios | 1.16 |
+| Styling | Tailwind CSS · clsx | 3.4 · 2.1 |
+| Icônes | lucide-react | 0.400 |
+| Graphiques | recharts | 2.15 |
+| PDF | pdfjs-dist · jsPDF · jspdf-autotable | 4.10 · 4.2 · 5.0 |
+| Canvas 2D | fabric.js | 7.4 |
+| 3D | three.js · @react-three/fiber · @react-three/drei | 0.168 · 8.17 · 9.122 |
+| Sécurité | dompurify | 3.3 |
+
+### Sécurité automatisée (CI)
+
+| Outil | Rôle |
+|---|---|
+| **pip-audit** (OSV) | Scan vulnérabilités Python à chaque push/PR |
+| **npm audit** (high+) | Scan vulnérabilités frontend (3 apps) à chaque push/PR |
+| **CodeQL** (security-extended) | Analyse statique Python + JavaScript/TypeScript |
+| **Gitleaks** | Détection de secrets fuités dans l'historique git |
+| **Dependabot** | Mises à jour hebdomadaires automatiques |
 
 ---
 
-## 🍁 Conçu pour la réalité québécoise
-
-- **Calculateurs métier conformes** aux normes locales : Code du bâtiment du Québec, RBQ, CCQ, Loi 16, CNESST
-- **Taxes québécoises automatiques** : TPS 5 %, TVQ 9,975 %
-- **61 métiers CCQ** préconfigurés avec les taux de la convention collective 2025-2029
-- **57 conseillers IA spécialisés** en construction (assistants Claude — optionnel, requiert une clé Anthropic API)
-- **Métré sur plans PDF** avec calculs automatiques (surfaces, longueurs, quantités)
-- **Calculateurs spécialisés** : béton, toiture, peinture, électricité, plomberie, CVAC, escaliers, soudure, pliage métal
-- **Paie québécoise complète** : retenues fédérales et provinciales, RRQ, RQAP, FSS, CSST
-
----
-
-## 🏗️ Architecture technique
-
-- **Multi-tenant** via schémas PostgreSQL isolés (un schéma par entreprise cliente)
-- **Authentification JWT** par application (`ERP_JWT_SECRET`, `JWT_SECRET_KEY`, `SEAOP_JWT_SECRET`)
-- **Défense en profondeur** : bcrypt 12 rounds, `hmac.compare_digest`, headers HTTP standards (HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy)
-- **Validation stricte des entrées** : Pydantic, magic bytes pour les uploads, sanitization Content-Disposition
-- **CI scans automatisés** à chaque PR : `pip-audit`, `npm audit`, `CodeQL`, secret scanning Gitleaks
-- **Dépendances surveillées** par Dependabot (mises à jour hebdomadaires automatiques)
-
----
-
-## 🚀 Démarrage rapide
+## Démarrage rapide
 
 ### Prérequis
 
@@ -64,7 +238,7 @@ cd Code_Libre
 cp .env.example .env
 # Éditer .env : DATABASE_URL, secrets JWT, ADMIN_PASSWORD, etc.
 
-# 3. Installer les dépendances Python (modules partagés + backends)
+# 3. Installer les dépendances Python
 pip install -r requirements.txt
 
 # 4. Lancer le backend ERP (port 8003)
@@ -77,95 +251,193 @@ npm install
 npm run dev
 ```
 
-Reproduire les étapes 4-5 pour `MOBILE_REACT` (backend port 8003, frontend port 5175) et `SEAOP_REACT` (backend port 8002, frontend port 5173).
+Reproduire les étapes 4-5 pour les autres applications :
 
-### Variables d'environnement principales
-
-Voir [`.env.example`](.env.example) pour la liste complète et commentée.
-
-| Variable | Description | Requise |
+| App | Backend | Frontend |
 |---|---|---|
-| `DATABASE_URL` | URL PostgreSQL — format `postgresql://user:pass@host:5432/db` | ✅ |
-| `ERP_JWT_SECRET` | Secret de signature JWT pour ERP_REACT | ✅ en prod |
-| `JWT_SECRET_KEY` | Secret de signature JWT pour MOBILE_REACT | ✅ en prod |
-| `SEAOP_JWT_SECRET` | Secret de signature JWT pour SEAOP_REACT | ✅ en prod |
-| `ADMIN_PASSWORD` | Mot de passe du super-administrateur initial | ✅ |
-| `ALLOWED_ORIGINS` | Origines CORS autorisées (CSV) | recommandée |
-| `APP_BASE_URL` | URL publique de votre instance | recommandée |
-| `ANTHROPIC_API_KEY` | Clé API Anthropic pour les 57 conseillers IA | optionnelle |
-| `STRIPE_SECRET_KEY` | Clé secrète Stripe pour les paiements | optionnelle |
-| `SMTP_HOST` / `SMTP_USER` / `SMTP_PASSWORD` | Envoi d'emails (devis, notifications) | optionnelle |
-| `SENTRY_DSN` | Monitoring d'erreurs Sentry | optionnelle |
+| ERP_REACT | `uvicorn erp_api:app --port 8003` | `npm run dev` → http://localhost:**5174** |
+| MOBILE_REACT | `uvicorn mobile_api:app --port 8003` | `npm run dev` → http://localhost:**5175** |
+| SEAOP_REACT | `uvicorn seaop_api:app --port 8002` | `npm run dev` → http://localhost:**5173** |
 
-Pour générer un secret JWT cryptographiquement robuste :
+Le backend `MOBILE_REACT` peut tourner sur le même port que l'ERP en développement local — il sert une API distincte mais utilise la même base PostgreSQL.
+
+### Générer un secret JWT robuste
+
 ```bash
 python -c "import secrets; print(secrets.token_urlsafe(64))"
 ```
 
 ---
 
-## 🗂️ Structure du dépôt
+## Variables d'environnement
 
-```
-Code_Libre/
-├── ERP_REACT/                # ERP web (CRM, projets, factures, comptabilité)
-│   ├── backend/              #   FastAPI — 25+ routers
-│   ├── frontend/             #   React 18 + Vite + TypeScript
-│   └── docs/manuel/          #   29 fichiers de manuel utilisateur
-├── MOBILE_REACT/             # Application mobile PWA (pointage, terrain)
-│   ├── backend/
-│   └── frontend/
-├── SEAOP_REACT/              # Plateforme publique d'appels d'offres
-│   ├── backend/
-│   └── frontend/
-├── *.py                      # Modules partagés (DB, auth, Stripe, sécurité)
-├── .env.example              # Template de configuration
-├── requirements.txt          # Dépendances Python
-├── LICENSE                   # Apache 2.0
-├── NOTICE                    # Exigence d'attribution
-├── SECURITY.md               # Politique de divulgation responsable
-└── README.md
-```
+Liste complète et commentée dans [`.env.example`](.env.example). Principales :
+
+| Variable | Description | Requise |
+|---|---|---|
+| `DATABASE_URL` | URL PostgreSQL — `postgresql://user:pass@host:5432/db` | ✅ |
+| `ERP_JWT_SECRET` | Secret JWT pour ERP_REACT | ✅ en prod |
+| `JWT_SECRET_KEY` | Secret JWT pour MOBILE_REACT | ✅ en prod |
+| `SEAOP_JWT_SECRET` | Secret JWT pour SEAOP_REACT | ✅ en prod |
+| `ADMIN_PASSWORD` | Mot de passe du super-administrateur initial | ✅ |
+| `ENVIRONMENT` | `development` ou `production` (active les guards stricts) | ✅ en prod |
+| `ALLOWED_ORIGINS` | Origines CORS autorisées (CSV — jamais `*` en prod) | recommandée |
+| `APP_BASE_URL` | URL publique de votre instance | recommandée |
+| `ANTHROPIC_API_KEY` | Clé API Anthropic (OCR factures, assistants IA) | optionnelle |
+| `STRIPE_SECRET_KEY` | Clé secrète Stripe (paiements, abonnements) | optionnelle |
+| `SMTP_HOST` · `SMTP_USER` · `SMTP_PASSWORD` | Envoi d'emails (devis, notifications) | optionnelle |
+| `SENTRY_DSN` | Monitoring d'erreurs Sentry | optionnelle |
 
 ---
 
-## 🔒 Sécurité
+## Documentation de l'API
 
-> **Politique de divulgation responsable** : voir [SECURITY.md](SECURITY.md). Pour signaler une vulnérabilité, écrivez à **info@constructoai.ca** — ne pas ouvrir d'issue publique.
+FastAPI génère automatiquement une documentation **OpenAPI 3** interactive pour chaque backend. Une fois le serveur lancé :
 
-### À configurer impérativement avant la mise en production
+| App | Swagger UI | ReDoc | Schéma JSON |
+|---|---|---|---|
+| ERP | http://localhost:8003/docs | http://localhost:8003/redoc | http://localhost:8003/openapi.json |
+| Mobile | http://localhost:8003/docs | http://localhost:8003/redoc | http://localhost:8003/openapi.json |
+| SEAOP | http://localhost:8002/docs | http://localhost:8002/redoc | http://localhost:8002/openapi.json |
 
-1. Copier `.env.example` → `.env` et remplir **tous** les secrets requis
-2. Définir `ENVIRONMENT=production` pour activer les guards stricts (cookies `Secure`, JWT obligatoire, etc.)
-3. Configurer `ALLOWED_ORIGINS` avec votre domaine exact (jamais `*`)
-4. Activer **HTTPS** sur tous les services
-5. Activer **Sentry** (`SENTRY_DSN`) pour le monitoring d'erreurs
-6. Activer la **MFA** sur tous les comptes administrateur (plateforme + Stripe + base de données)
-7. Configurer des **backups automatiques** réguliers de la base de données
-8. Prévoir une **rotation périodique** des secrets JWT
-9. Surveiller les logs (échecs d'authentification, rate limit, 5xx)
-10. **Audit de pénétration professionnel** recommandé avant tout déploiement à fort trafic ou traitant des données sensibles
+Tous les endpoints sont **typés** par Pydantic v2 — les corps de requête et de réponse sont validés à l'exécution. La doc OpenAPI peut être importée dans **Postman**, **Insomnia**, ou utilisée pour générer un client TypeScript/Python automatiquement.
+
+### Manuel utilisateur
+
+L'ERP est livré avec **29 chapitres** de documentation utilisateur en français dans [`ERP_REACT/docs/manuel/`](ERP_REACT/docs/manuel/), couvrant chaque module (tableau de bord, CRM, soumissions, projets, comptabilité, paie, calculateurs, intégrations, etc.).
 
 ---
 
-## 🤝 Contribution
+## Tests et CI
+
+```bash
+# Tests Python (à la racine)
+pytest
+
+# Tests avec couverture
+pytest --cov
+
+# Typecheck frontend (par app)
+cd ERP_REACT/frontend && npm run typecheck
+
+# Build de production frontend
+npm run build
+
+# Lint
+npm run lint
+```
+
+Chaque push et chaque pull request déclenche automatiquement le workflow [**Security scan**](.github/workflows/security.yml) :
+
+- `pip-audit` — vulnérabilités Python (OSV)
+- `npm audit` — vulnérabilités frontend (high+) pour les 3 apps en parallèle
+- `CodeQL` — analyse statique Python + JS/TS (queries `security-extended`)
+- `Gitleaks` — détection de secrets dans l'historique
+
+Un scan complet supplémentaire tourne **chaque lundi à 02h00 EDT** pour capter les CVE nouvellement publiées.
+
+---
+
+## Sécurité et mise en production
+
+> **Politique de divulgation responsable :** voir [SECURITY.md](SECURITY.md). Pour signaler une vulnérabilité, écrivez à **info@constructoai.ca** — ne pas ouvrir d'issue publique.
+
+### Défense en profondeur
+
+- **Authentification** : JWT signé HS256/HS512, secrets distincts par application, vérification à constant-time (`hmac.compare_digest`)
+- **Mots de passe** : bcrypt 12 rounds, jamais stockés en clair, jamais journalisés
+- **Headers HTTP** : HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy activés par défaut en production
+- **Validation des entrées** : Pydantic v2 strict, magic bytes pour les uploads, sanitization Content-Disposition, DOMPurify côté client
+- **Rate limiting** : middleware par IP et par utilisateur, configurable par route
+- **Isolation tenant** : `search_path` PostgreSQL réinitialisé à chaque retour au pool
+- **Audit log Loi 25** : tracking polymorphe des accès aux données personnelles
+
+### Checklist avant mise en production
+
+- [ ] Copier `.env.example` → `.env` et remplir **tous** les secrets requis
+- [ ] Définir `ENVIRONMENT=production` (active les guards stricts : cookies `Secure`, JWT obligatoire)
+- [ ] Configurer `ALLOWED_ORIGINS` avec votre domaine exact (**jamais `*`**)
+- [ ] Activer **HTTPS** sur tous les services (terminaison TLS recommandée via reverse proxy)
+- [ ] Activer **Sentry** (`SENTRY_DSN`) pour le monitoring d'erreurs en production
+- [ ] Activer la **MFA** sur tous les comptes administrateur (plateforme, Stripe, hébergeur base de données)
+- [ ] Configurer des **backups automatiques** chiffrés de la base PostgreSQL (recommandé : quotidien + rétention 30 jours minimum)
+- [ ] Planifier une **rotation périodique** des secrets JWT (180 jours)
+- [ ] Surveiller les logs d'authentification, rate limit et 5xx
+- [ ] **Audit de pénétration professionnel** recommandé avant tout déploiement à fort trafic ou traitant des données sensibles
+
+---
+
+## Comparaison avec les SaaS commerciaux
+
+|  | Constructo AI | Procore | Buildertrend | Maestro\* |
+|---|---|---|---|---|
+| **Licence** | Apache 2.0 (libre) | Propriétaire | Propriétaire | Propriétaire |
+| **Code source** | ✅ Inspectable | ❌ Boîte noire | ❌ Boîte noire | ❌ Boîte noire |
+| **Hébergement** | Vos serveurs ou cloud | Cloud US | Cloud US | Cloud QC/US |
+| **Coût** | Gratuit (auto-hébergement) | 375 $+/mois | 199 $+/mois/utilisateur | Sur devis |
+| **Multi-tenant** | ✅ Schémas isolés | ✅ | ✅ | ✅ |
+| **Taxes TPS/TVQ** | ✅ Natif | ⚠️ Configuration | ⚠️ Configuration | ✅ |
+| **Paie CCQ** | ✅ Natif | ❌ | ❌ | ⚠️ Module |
+| **Conformité RBQ** | ✅ Natif | ❌ | ❌ | ⚠️ Partiel |
+| **Loi 25 / 16** | ✅ Audit log | ❌ | ❌ | ⚠️ |
+| **Modifiable** | ✅ Forkable | ❌ | ❌ | ❌ |
+| **Intégration IA** | ✅ Claude (au choix) | ⚠️ Limité | ⚠️ Limité | ❌ |
+| **Données souveraines** | ✅ Hébergement QC possible | ❌ US | ❌ US | ✅ |
+
+*Les détails et tarifs des concurrents sont fournis à titre informatif et peuvent varier — vérifiez auprès des éditeurs.*
+
+---
+
+## Contribution
 
 Les contributions sont les bienvenues. Pour contribuer :
 
 1. **Forker** le dépôt
 2. Créer une branche de fonctionnalité (`feature/ma-fonctionnalite`)
 3. Vérifier qu'aucun secret n'est commité (`git diff` avant `git commit`)
-4. Soumettre une **pull request** avec une description claire
+4. Lancer `pytest` et `npm run typecheck` avant de pousser
+5. Soumettre une **pull request** avec une description claire (contexte, changements, tests)
 
-Tous les contributeurs acceptent les termes de la licence Apache 2.0.
+Tous les contributeurs acceptent les termes de la licence Apache 2.0. Les contributions significatives donnent droit à une mention dans le fichier [NOTICE](NOTICE).
+
+### Bonnes premières contributions
+
+- 🌍 Traduction de l'interface (anglais, espagnol)
+- 📐 Nouveaux calculateurs métier (charpente, isolation, asphalte, etc.)
+- 🧪 Couverture de tests sur les routers FastAPI
+- 📚 Captures d'écran et tutoriels vidéo
+- 🐛 Issues étiquetées `good first issue`
 
 ---
 
-## 📜 Licence
+## FAQ
 
-**Apache License 2.0** — Utilisation commerciale autorisée, modifications permises, distribution libre.
+**Puis-je l'utiliser commercialement ?**
+Oui — la licence Apache 2.0 autorise l'usage commercial, y compris en revente, à condition de conserver l'attribution (voir [NOTICE](NOTICE)).
 
-L'attribution à **Constructo AI Inc.** est requise conformément au fichier [NOTICE](NOTICE). Voir [LICENSE](LICENSE) pour les termes complets.
+**Dois-je rendre publiques mes modifications ?**
+Non. Apache 2.0 n'a pas d'effet « copyleft » : vous pouvez maintenir un fork privé. Seules les modifications du fichier `NOTICE` doivent être préservées.
+
+**Est-ce que ça marche sans clé Anthropic / Stripe ?**
+Oui. Les intégrations IA (OCR factures, assistants Claude) et paiement Stripe sont **optionnelles**. L'ERP, le pointage, la paie, la facturation et les calculateurs fonctionnent sans elles.
+
+**Combien d'utilisateurs simultanés ?**
+Le pool psycopg2 est configuré pour 10-75 connexions par défaut, suffisant pour ~100-300 utilisateurs actifs simultanés sur un serveur 4 cœurs / 8 Go. Au-delà, augmenter `DB_POOL_MAX` et passer en mode multi-worker uvicorn.
+
+**Est-ce production-ready ?**
+Constructo AI est déjà utilisé en production par Constructo AI Inc. La version open source publie le code stable utilisé en interne. Pour un déploiement critique, un audit de sécurité indépendant est recommandé (voir checklist plus haut).
+
+**Comment migrer depuis Procore / Buildertrend / Excel ?**
+Des scripts d'import existent pour les CSV standards (clients, projets, factures). Pour les cas complexes, Constructo AI Inc. offre un service d'accompagnement payant — voir [Support et contact](#support-et-contact).
+
+**Puis-je héberger ça hors du Québec ?**
+Techniquement oui (rien n'est codé en dur géographiquement), mais les obligations de la Loi 25 imposent que les données personnelles des résidents québécois soient hébergées dans une juridiction offrant un niveau de protection équivalent. Hébergement au Québec, en France ou au Canada recommandé.
+
+---
+
+## Licence et attribution
+
+**Apache License 2.0** — Utilisation commerciale autorisée, modifications permises, distribution libre. Voir [LICENSE](LICENSE) pour les termes complets.
 
 ### Attribution requise
 
@@ -176,7 +448,7 @@ Conformément au fichier [NOTICE](NOTICE), tout produit dérivé doit afficher l
 
 ---
 
-## 📞 Contact et support
+## Support et contact
 
 | | |
 |---|---|
@@ -184,11 +456,24 @@ Conformément au fichier [NOTICE](NOTICE), tout produit dérivé doit afficher l
 | **Courriel** | [info@constructoai.ca](mailto:info@constructoai.ca) |
 | **Téléphone** | 514-820-1972 |
 | **Web** | [https://constructoai.ca](https://constructoai.ca) |
+| **Vulnérabilités** | Voir [SECURITY.md](SECURITY.md) (divulgation responsable) |
 
-Pour les questions de licence commerciale, attribution, support entreprise ou intégration sur mesure, contactez directement Constructo AI Inc.
+### Services commerciaux
+
+Constructo AI Inc. propose en plus du code libre :
+
+- **Hébergement géré** au Québec (SaaS clé en main avec SLA)
+- **Intégration sur mesure** (ERP existant, comptable, banque, fournisseur)
+- **Migration de données** depuis Procore, Buildertrend, Maestro, Excel, etc.
+- **Formation des équipes** (web ou sur site, en français)
+- **Support entreprise** avec délais de réponse garantis
+- **Licences sans attribution** (whitelabel) pour intégrateurs
+
+Contactez-nous pour un devis ou une démo personnalisée.
 
 ---
 
 <p align="center">
-  <sub>Fait au Québec 🍁 — Pour les entrepreneurs en construction du Québec</sub>
+  <sub>Fait au Québec 🍁 — Pour les entrepreneurs en construction du Québec.</sub><br/>
+  <sub>Code libre · Données souveraines · Conformité locale</sub>
 </p>
