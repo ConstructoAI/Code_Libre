@@ -230,8 +230,7 @@ export default function MeasurementCanvas() {
       const h = parseFloat(pdfCanvas.style.height) || pdfCanvas.offsetHeight;
 
       if (w > 0 && h > 0) {
-        fc.setWidth(w);
-        fc.setHeight(h);
+        fc.setDimensions({ width: w, height: h });
         fc.renderAll();
       }
     };

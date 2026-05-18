@@ -19,7 +19,7 @@
     "lucide-react": "^0.400.0",
     "clsx": "^2.1.1",
     "recharts": "^2.15.0",
-    "fabric": "^6.5.1",
+    "fabric": "^7.4.0",
     "pdfjs-dist": "^4.10.38",
     "jspdf": "^4.2.0",
     "jspdf-autotable": "^5.0.8",
