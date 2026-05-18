@@ -12,7 +12,7 @@ streamlit>=1.41.0,<2.0.0
 streamlit-cookies-controller>=0.0.4,<1.0.0  # Cookie manager pour sessions persistantes (principal)
 extra-streamlit-components>=0.1.71,<1.0.0  # Cookie manager fallback
 streamlit-image-coordinates>=0.1.9,<1.0.0
-streamlit-folium>=0.23.0,<1.0.0  # Intégration Streamlit pour cartes
+streamlit-folium>=0.27.2,<1.0.0  # Intégration Streamlit pour cartes
 streamlit-drawable-canvas>=0.9.3,<1.0.0  # Canvas interactif pour module Takeoff
 
 # === DATA & ANALYTICS ===
