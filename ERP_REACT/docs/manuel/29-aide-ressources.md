@@ -80,7 +80,7 @@ Lien vers le **README.md du repo de documentation**. Le manuel utilisateur compl
 
 **Public cible** : utilisateurs lecteurs, recherche par mot-cle (Ctrl+F dans GitHub), reference exhaustive.
 
-> **Note** : le lien actuel pointe vers le repo `ConstructoAI/Documents` (public). Ce repo Documents miroir le contenu de `ERP_REACT/docs/manuel/` du repo principal `Constructo_AI_Prod` (source de verite).
+> **Note** : le lien actuel pointe vers le repo `ConstructoAI/Documents` (public). Ce repo Documents miroir le contenu de `ERP_REACT/docs/manuel/` du repo principal `Code_Libre` (source de verite).
 
 ### 2.3 Liens utiles
 

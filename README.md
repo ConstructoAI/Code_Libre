@@ -67,7 +67,7 @@ python -c "import secrets; print(secrets.token_urlsafe(64))"
 ```bash
 # 1. Cloner le dépôt
 git clone <votre-fork>
-cd Open_source
+cd Code_Libre
 
 # 2. Copier et configurer les variables d'environnement
 cp .env.example .env
@@ -109,7 +109,7 @@ Voir [.env.example](.env.example) pour la liste complète. Les essentielles :
 ## Architecture
 
 ```
-Open_source/
+Code_Libre/
 ├── ERP_REACT/              # ERP web (CRM, projets, factures, ...)
 │   ├── backend/            #   FastAPI — 25+ routers
 │   ├── frontend/           #   React + Vite
