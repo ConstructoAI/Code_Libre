@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Vulnérabilité de sécurité
+    url: mailto:info@constructoai.ca
+    about: Pour signaler une faille de sécurité, ne PAS ouvrir d'issue publique. Voir SECURITY.md.
+  - name: 💬 Question générale ou discussion
+    url: https://github.com/ConstructoAI/Code_Libre/discussions
+    about: Pour les questions, brainstorming et retours d'expérience, utilisez les Discussions GitHub.
+  - name: 🏢 Support commercial / hébergement géré
+    url: https://constructoai.ca
+    about: Pour un déploiement clé en main, intégration sur mesure, ou support entreprise, contactez Constructo AI Inc.

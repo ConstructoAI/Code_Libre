@@ -1,0 +1,6 @@
+# Configuration du bouton "Sponsor this project" sur GitHub.
+# Documentation : https://docs.github.com/fr/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+# Site web officiel de Constructo AI Inc. — contactez-nous pour discuter
+# d'un support commercial, hébergement géré, ou parrainage.
+custom: ["https://constructoai.ca"]
