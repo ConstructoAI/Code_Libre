@@ -1,139 +1,126 @@
 # Contribuer à Constructo AI
 
-Merci de votre intérêt pour Constructo AI ! Ce document décrit comment proposer une contribution efficace et acceptable.
+> ⚠️ **À lire avant de commencer.** Constructo AI est avant tout **le code de production de Constructo AI Inc.**, opéré en SaaS hébergé à partir de 79,99 $/mois. Sa roadmap est dictée par les besoins des clients du service hébergé. **Les contributions externes ne sont pas activement sollicitées** et la majorité des pull requests externes ne seront pas mergées.
+>
+> Cette politique n'est pas un signe d'hostilité — c'est une décision opérationnelle qui permet à un mainteneur solo de servir ses clients sans se disperser. Si vous êtes développeur et cherchez un projet open source à contribuer activement, des dizaines d'excellents projets construction (Frappe ERPNext, Akaunting, Twenty CRM) ont une politique d'accueil beaucoup plus ouverte.
 
-## Code de conduite
+## Quand une PR sera-t-elle considérée ?
 
-Toute participation au projet est soumise au [Code de conduite](CODE_OF_CONDUCT.md). En contribuant, vous acceptez de respecter ses termes.
+Trois cas, et trois cas seulement :
 
-## Comment contribuer
+### 🔒 1. Correctif de sécurité
 
-### 1. Signaler un bug
+- Référez-vous d'abord à [SECURITY.md](SECURITY.md) — les vulnérabilités graves ne doivent **pas** être divulguées via une PR publique
+- Pour un correctif mineur déjà public ou documenté : ouvrez une PR avec lien vers le CVE/CWE/advisory et une explication claire
 
-Avant d'ouvrir un nouveau ticket, vérifiez qu'un ticket similaire n'existe pas déjà dans les [issues](https://github.com/ConstructoAI/Code_Libre/issues). Si ce n'est pas le cas, utilisez le **template de bug report** : il guide pour fournir la version, les étapes de reproduction, le comportement attendu vs observé, et l'environnement (OS, navigateur, version Python/Node).
+### 🐛 2. Correctif de bug critique
 
-### 2. Proposer une nouvelle fonctionnalité
+Un bug critique est défini comme :
+- Une régression bloquante (la fonctionnalité ne marche plus du tout)
+- Une perte de données potentielle
+- Un crash systématique reproductible
 
-Utilisez le **template de feature request**. Décrivez :
-- Le problème métier que vous cherchez à résoudre (qui, quand, pourquoi)
-- La solution proposée (et alternatives envisagées)
-- L'impact sur la conformité québécoise (RBQ, CCQ, CNESST, Loi 16, Loi 25) si pertinent
+La PR doit inclure :
+1. Une issue préalable décrivant le bug avec étapes de reproduction
+2. Un test automatisé qui échoue avant le fix et passe après
+3. Un changement minimal — pas de refactoring d'opportunité
 
-Pour les fonctionnalités importantes, ouvrez une **issue de discussion** avant de coder — cela évite qu'un PR soit refusé pour incompatibilité d'approche.
+### 📝 3. Amélioration de documentation
 
-### 3. Soumettre du code
+Acceptées :
+- Corrections factuelles dans le README, le manuel utilisateur, les commentaires de code
+- Clarifications d'exemples qui sont incorrects ou ambigus
+- Traductions (anglais, espagnol — préciser dans l'issue)
 
-```bash
-# 1. Forker le dépôt sur GitHub, puis cloner votre fork
-git clone https://github.com/<votre-utilisateur>/Code_Libre.git
-cd Code_Libre
+Refusées :
+- Ajout de fonctionnalités non documentées
+- Refonte du style/ton de la documentation existante
 
-# 2. Créer une branche de fonctionnalité
-git checkout -b feature/ma-fonctionnalite
+## Avant d'ouvrir une PR
 
-# 3. Faire vos changements, puis valider localement
-pytest                                              # tests Python
-cd ERP_REACT/frontend && npm run typecheck          # vérification TypeScript
-npm run build                                       # vérification build
-npm run lint                                        # vérification lint
+**Ouvrez une [Discussion GitHub](https://github.com/ConstructoAI/Code_Libre/discussions) d'abord** pour valider l'intérêt. Une PR ouverte sans discussion préalable sera vraisemblablement fermée sans revue, et c'est du temps perdu pour vous.
 
-# 4. Commit (en français, message clair)
-git add .
-git commit -m "feat: description courte de la fonctionnalité"
+Dans la Discussion, précisez :
+- **Quel problème** vous cherchez à résoudre (cas d'usage concret, pas hypothétique)
+- **Pourquoi maintenant** (urgence, blocage, opportunité)
+- **Quelle approche** vous envisagez (1-2 paragraphes)
+- **Si vous prévoyez de coder vous-même** la solution
 
-# 5. Pousser vers votre fork et ouvrir une PR sur GitHub
-git push origin feature/ma-fonctionnalite
-```
+Délai de réponse typique aux Discussions : 7-14 jours ouvrables, sans engagement.
 
-## Style de code
+## Style de code (si votre PR est acceptée en principe)
 
 ### Python (backends + modules partagés)
 
-- **PEP 8** appliqué (longueur de ligne 100 caractères tolérée)
+- **PEP 8** appliqué, longueur de ligne 100 caractères tolérée
 - **Type hints** obligatoires pour les nouvelles fonctions publiques
 - **Pydantic v2** pour les schémas de requête/réponse FastAPI
-- **Docstrings** au format Google ou NumPy pour les fonctions complexes
 - Pas de `print()` en production — utiliser le `logger` du module
 
 ### TypeScript / React (frontends)
 
 - **TypeScript strict** activé — pas de `any` implicite
 - **React 18** — composants fonctionnels uniquement, pas de classes
-- **Zustand** pour le state global, `useState`/`useReducer` pour le state local
-- **Tailwind CSS** pour le styling, classes utilitaires plutôt que CSS custom
-- **ESLint** + **Prettier** doivent passer sans warning
+- **Zustand** pour le state global
+- **Tailwind CSS** pour le styling
+- **ESLint** doit passer sans warning
 
 ### Commits
 
-Le projet ne force pas Conventional Commits, mais préfère ce style pour la lisibilité :
-
+Style préféré (non strict) :
 - `feat: …` — nouvelle fonctionnalité
 - `fix: …` — correction de bug
-- `docs: …` — modification de documentation
+- `docs: …` — documentation
 - `refactor: …` — refactorisation sans changement de comportement
-- `test: …` — ajout ou modification de tests
-- `chore: …` — tâche de maintenance (dépendances, CI, etc.)
-- `deps: …` — mise à jour d'une dépendance
+- `test: …` — tests
+- `chore: …` — maintenance
 
-Messages en **français** acceptés et même préférés (le projet cible le Québec).
+Messages en **français** acceptés et préférés.
 
-## Tests
-
-### Tests obligatoires avant PR
+## Tests obligatoires avant PR
 
 - **Backend** : `pytest` sans erreur
 - **Frontend** : `npm run typecheck` et `npm run build` sans erreur
 - **Sécurité** : aucun secret hardcodé (le CI Gitleaks bloquera sinon)
 
-### Couverture de tests
-
-La couverture pytest est mesurée via `pytest --cov`. Les contributions importantes doivent maintenir ou améliorer la couverture, particulièrement sur :
-- Authentification, autorisation, multi-tenant
-- Calculs financiers (taxes, paie, factures)
-- Validation de données utilisateur (Pydantic, magic bytes)
-
-### Tests de sécurité
-
-Le fichier `ERP_REACT/backend/tests/test_code_quality.py` scanne automatiquement le code pour des patterns de secrets en dur (`sk-ant-`, `sk_live_`, etc.). Ne contournez jamais ces tests — fixez la cause racine.
-
-## Vérifications de sécurité
-
-Avant de pousser, **vérifiez** :
-
 ```bash
-# Aucun secret dans le diff
-git diff --staged
+# À la racine
+pytest
 
-# Aucun fichier sensible ajouté
-git status
-# Vérifiez l'absence de : .env, *.key, *.pem, credentials.json, etc.
+# Dans chaque frontend
+cd ERP_REACT/frontend && npm run typecheck && npm run build
 ```
 
-Le `.gitignore` est strict, mais une vérification manuelle reste prudente. Le CI **Gitleaks** scanne aussi l'historique complet à chaque push.
+## Sécurité — checklist obligatoire
 
-## Revue de PR
+Avant de pousser :
 
-Une pull request typique reçoit une revue dans les **7 jours**. La revue vérifie :
+```bash
+git diff --staged   # Aucun secret dans le diff
+git status          # Aucun fichier sensible (.env, *.key, credentials.json)
+```
 
-1. ✅ Les tests passent (CI vert)
-2. ✅ Le code respecte le style du projet
-3. ✅ Aucun secret ou donnée sensible n'est commité
-4. ✅ La fonctionnalité est documentée (commentaires de code + manuel utilisateur si UI)
-5. ✅ L'impact sur la conformité québécoise est évalué (le cas échéant)
-6. ✅ Les breaking changes sont signalés dans le `CHANGELOG.md`
+Toute PR contenant un secret en clair (clé API, mot de passe, token JWT, etc.) sera **rejetée immédiatement et l'historique git nettoyé**, indépendamment de la qualité du code.
 
-Les PR avec test plan dans la description et captures d'écran (si UI) sont mergées plus vite.
+## Revue et licence
 
-## Licence
+- Délai de revue : **non garanti**. Une PR considérée mais non prioritaire peut rester ouverte plusieurs mois.
+- Toute contribution acceptée est publiée sous [Apache 2.0](LICENSE)
+- Les contributeurs significatifs sont ajoutés au [NOTICE](NOTICE)
+- Le mainteneur (Constructo AI Inc.) se réserve le droit de fermer toute PR sans explication détaillée, particulièrement si elle ne respecte pas cette politique
 
-En contribuant, vous acceptez que votre code soit publié sous la même licence [**Apache 2.0**](LICENSE) que le reste du projet, et que votre nom puisse être ajouté au fichier [NOTICE](NOTICE) pour les contributions significatives.
+## Vous voulez utiliser Constructo AI sans contribuer ?
 
-## Besoin d'aide ?
+**Le plus simple :** abonnez-vous au SaaS hébergé à [constructoai.ca](https://constructoai.ca) à partir de 79,99 $/mois. C'est la version officielle, maintenue, supportée et conforme.
 
-- **Discussions GitHub** : pour les questions générales, brainstorming, retours d'expérience
-- **Issues** : pour les bugs et les demandes de fonctionnalités précises
-- **info@constructoai.ca** : pour les questions privées ou les vulnérabilités de sécurité (voir [SECURITY.md](SECURITY.md))
+**Vous voulez self-host malgré tout ?** C'est votre droit (Apache 2.0). Le code est complet. Mais **aucun support n'est fourni** — ni gratuit, ni payant. Les forks et déploiements externes sont votre responsabilité.
+
+## Contact
+
+- **Discussions GitHub** : questions générales, propositions, retours d'expérience
+- **Sécurité** : voir [SECURITY.md](SECURITY.md), envoyer à info@constructoai.ca
+- **Support commercial / SaaS / hébergement** : [constructoai.ca](https://constructoai.ca)
 
 ---
 
-Merci de contribuer à rendre Constructo AI meilleur pour la communauté de la construction au Québec !
+Merci de respecter cette politique. Elle permet à Constructo AI Inc. de continuer à offrir un produit fiable, supporté et abordable aux entrepreneurs québécois.

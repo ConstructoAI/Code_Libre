@@ -24,6 +24,21 @@
 
 ---
 
+> ## ℹ️ Modèle ouvert, opération privée
+>
+> Le code source de Constructo AI est publié sous licence Apache 2.0 **pour la transparence et la confiance**. Notre produit, c'est le **SaaS hébergé à partir de 79,99 $/mois**, opéré par Constructo AI Inc. au Québec.
+>
+> | | |
+> |---|---|
+> | 🟢 **SaaS hébergé** | Maintenu et supporté en continu, conforme aux exigences québécoises, hébergement souverain, support en français. **C'est notre seul produit officiel.** Voir [constructoai.ca](https://constructoai.ca). |
+> | 🟡 **Auto-hébergement** | Le code est complet et fonctionnel, mais **non supporté**. Configuration, déploiement et maintenance sont à votre charge. Aucune aide n'est fournie pour les déploiements externes. |
+> | 🟡 **Contributions externes** | Non activement sollicitées. La roadmap suit les besoins des clients du SaaS hébergé. Les pull requests externes sont étudiées au cas par cas, sans engagement. |
+> | 🔴 **Issues de support** | Réservées aux clients du SaaS. Pour des questions générales : [Discussions GitHub](https://github.com/ConstructoAI/Code_Libre/discussions). Pour des vulnérabilités de sécurité : voir [SECURITY.md](SECURITY.md). |
+>
+> 👉 **Pour utiliser Constructo AI sans tracas, démarrez en quelques minutes sur [constructoai.ca](https://constructoai.ca) — à partir de 79,99 $/mois.**
+
+---
+
 ## Table des matières
 
 1. [Pourquoi Constructo AI ?](#pourquoi-constructo-ai-)
@@ -447,29 +462,25 @@ Par transparence — voici ce qui n'est **pas encore** dans le code et ce sur qu
 | **Notifications temps réel** | Les notifications passent par email/polling, pas de WebSocket persistant | 🔴 À faire |
 | **Tests E2E frontend** | Couverture pytest sur le backend uniquement. Playwright/Cypress non configurés | 🔴 À faire |
 
-Ces points sont identifiés comme **good first contributions** pour les développeurs souhaitant rejoindre le projet. Voir aussi [Contribution](#contribution).
+Ces points sont sur la **roadmap interne** de Constructo AI Inc. et sont traités dans l'ordre dicté par les besoins des clients du SaaS hébergé.
 
 ---
 
 ## Contribution
 
-Les contributions sont les bienvenues. Pour contribuer :
+Constructo AI est avant tout **le code de production de Constructo AI Inc.**, opéré en SaaS hébergé. Sa roadmap est dictée par les besoins des clients payants. À ce titre, **les contributions externes ne sont pas activement sollicitées** et ne sont généralement pas mergées.
 
-1. **Forker** le dépôt
-2. Créer une branche de fonctionnalité (`feature/ma-fonctionnalite`)
-3. Vérifier qu'aucun secret n'est commité (`git diff` avant `git commit`)
-4. Lancer `pytest` et `npm run typecheck` avant de pousser
-5. Soumettre une **pull request** avec une description claire (contexte, changements, tests)
+Si vous souhaitez tout de même proposer un changement, voici les seuls cas où une PR sera examinée :
 
-Tous les contributeurs acceptent les termes de la licence Apache 2.0. Les contributions significatives donnent droit à une mention dans le fichier [NOTICE](NOTICE).
+- 🔒 **Correctif de sécurité** documenté (référez-vous d'abord à [SECURITY.md](SECURITY.md))
+- 🐛 **Correctif de bug critique** avec reproduction claire et test associé
+- 📝 **Amélioration de documentation** (manuel utilisateur, README, exemples) factuelle et vérifiable
 
-### Bonnes premières contributions
+Pour tout autre cas (nouvelle fonctionnalité, refactoring, ajout d'intégration, traduction, etc.), **ouvrez d'abord une [Discussion](https://github.com/ConstructoAI/Code_Libre/discussions)** pour valider l'intérêt avant d'investir du temps en code. Une PR ouverte sans discussion préalable sera vraisemblablement fermée sans revue.
 
-- 🌍 Traduction de l'interface (anglais, espagnol)
-- 📐 Nouveaux calculateurs métier (charpente, isolation, asphalte, etc.)
-- 🧪 Couverture de tests sur les routers FastAPI
-- 📚 Captures d'écran et tutoriels vidéo
-- 🐛 Issues étiquetées `good first issue`
+Toute contribution acceptée est publiée sous licence [Apache 2.0](LICENSE). Les contributeurs significatifs sont mentionnés dans [NOTICE](NOTICE).
+
+Pour les détails techniques (style de code, tests, sécurité), voir [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
