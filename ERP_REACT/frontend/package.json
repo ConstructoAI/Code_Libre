@@ -25,7 +25,7 @@
     "jspdf-autotable": "^5.0.8",
     "dompurify": "^3.3.4",
     "three": "^0.168.0",
-    "@react-three/fiber": "^8.17.10",
+    "@react-three/fiber": "^9.6.1",
     "@react-three/drei": "^9.122.0"
   },
   "devDependencies": {
