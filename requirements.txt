@@ -76,7 +76,7 @@ bcrypt>=5.0.0,<6.0.0
 # cryptography >= 46.0.6 requis pour CVE-2026-34073, CVE-2026-26007
 cryptography>=46.0.6,<47.0.0
 bleach>=6.2.0,<7.0.0  # Sanitisation HTML pour prévenir XSS
-python-dotenv>=1.0.1,<2.0.0
+python-dotenv>=1.2.2,<2.0.0
 
 # === PARSING HTML & MARKDOWN ===
 beautifulsoup4>=4.12.3,<5.0.0
